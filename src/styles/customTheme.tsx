@@ -3,11 +3,11 @@ import type { StyleFunctionProps } from "@chakra-ui/styled-system"
 import { cssVar } from "@chakra-ui/theme-tools"
 import { lighten, darken } from "polished"
 
-function lightenColor(colorMode, mainColor, value) {
-    return colorMode === "dark" ? lighten(value, mainColor) : darken(value, mainColor)
+function lightenColor(mainColor, value) {
+    return lighten(value, mainColor)
 }
-function darkenColor(colorMode, mainColor, value) {
-    return colorMode === "dark" ? darken(value, mainColor) : lighten(value, mainColor)
+function darkenColor(mainColor, value) {
+    return darken(value, mainColor)
 }
 
 const customTheme = extendTheme({
@@ -22,7 +22,6 @@ const customTheme = extendTheme({
         Code: {
             baseStyle: (props: StyleFunctionProps) => ({
                 bg: props.colorMode === "dark" ? "pageBackgroundHover.dark" : "contentBackground.light",
-                // borderColor: darkenColor(props.colorMode, props.theme.colors.border.dark, 0.05),
             }),
         },
         Drawer: {
@@ -38,33 +37,41 @@ const customTheme = extendTheme({
             },
         },
         Button: {
-            baseStyle: (props: StyleFunctionProps) => ({
-                bg: props.colorMode === "dark" ? "blue" : "pageBackground.light",
-                _hover: {
-                    bg: props.colorMode === "dark" ? "green" : "pageBackgroundHover.light",
-                },
-                _active: {
-                    bg: props.colorMode === "dark" ? "yellow" : "pageBackground.light",
-                },
-            }),
+            variants: {
+                HeaderButton: (props: StyleFunctionProps) => ({
+                    bg: props.colorMode === "dark" ? lightenColor(props.theme.colors.pageBackground.dark, 0.1) : "contentBackground.light",
+                    _hover: {
+                        bg:
+                            props.colorMode === "dark"
+                                ? lightenColor(props.theme.colors.pageBackground.dark, 0.2)
+                                : darkenColor(props.theme.colors.contentBackground.light, 0.15),
+                    },
+                    _active: {
+                        bg:
+                            props.colorMode === "dark"
+                                ? lightenColor(props.theme.colors.pageBackground.dark, 0.3)
+                                : darkenColor(props.theme.colors.contentBackground.light, 0.2),
+                    },
+                }),
+            },
         },
     },
     colors: {
         pageBackground: {
             light: "#FFFFFF",
-            dark: "#0F1720",
+            dark: "#101011",
         },
         pageBackgroundHover: {
-            light: "#EDF2F7",
+            light: "#f0f7ed",
             dark: "#2a114c",
         },
         contentBackground: {
-            light: "#EDF2F7",
+            light: "#eaebee",
             dark: "#0e052c",
         },
         border: {
             light: "#D3D3D3",
-            dark: "#54199b",
+            dark: "#1a0d7b",
         },
         checklistBar: {
             light: "#dfdfdf",
