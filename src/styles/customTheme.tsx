@@ -23,6 +23,9 @@ const customTheme = extendTheme({
                         ? lightenColor(props.theme.colors.pageBackground.dark, 0.05)
                         : darkenColor(props.theme.colors.contentBackground.light, 0),
             },
+            ".currentAddressInfoContainer": {
+                bg: "green",
+            },
         }),
     },
     components: {
@@ -131,6 +134,19 @@ const customTheme = extendTheme({
                     _active: {
                         bg: lightenColor(props.theme.colors.green, 0.2),
                     },
+                }),
+                ChangeWalletButton: (props: StyleFunctionProps) => ({
+                    bg: props.theme.colors.orange,
+                    _hover: {
+                        bg: lightenColor(props.theme.colors.orange, 0.1),
+                    },
+                    _active: {
+                        bg: lightenColor(props.theme.colors.orange, 0.2),
+                    },
+                }),
+                ShowResultsButtonError: (props: StyleFunctionProps) => ({
+                    bg: props.theme.colors.red,
+                    cursor: "default",
                 }),
             },
         },
