@@ -1,7 +1,8 @@
-import { extendTheme } from "@chakra-ui/react"
+import { extendTheme, Input } from "@chakra-ui/react"
 import type { StyleFunctionProps } from "@chakra-ui/styled-system"
 import { cssVar } from "@chakra-ui/theme-tools"
-import { lighten, darken } from "polished"
+import { color } from "framer-motion"
+import { lighten, darken, borderRadius, border } from "polished"
 
 function lightenColor(mainColor, value) {
     return lighten(value, mainColor)
@@ -36,6 +37,25 @@ const customTheme = extendTheme({
                 variant: "solid",
             },
         },
+        Input: {
+            variants: {
+                AddressInput: (props: StyleFunctionProps) => ({
+                    field: {
+                        bg:
+                            props.colorMode === "dark"
+                                ? lightenColor(props.theme.colors.pageBackground.dark, 0.1)
+                                : darkenColor(props.theme.colors.contentBackground.light, 0.1),
+                        _focus: {
+                            bg:
+                                props.colorMode === "dark"
+                                    ? lightenColor(props.theme.colors.pageBackground.dark, 0.3)
+                                    : darkenColor(props.theme.colors.contentBackground.light, 0.2),
+                            border: "none",
+                        },
+                    },
+                }),
+            },
+        },
         Button: {
             variants: {
                 HeaderButton: (props: StyleFunctionProps) => ({
@@ -51,6 +71,24 @@ const customTheme = extendTheme({
                             props.colorMode === "dark"
                                 ? lightenColor(props.theme.colors.pageBackground.dark, 0.3)
                                 : darkenColor(props.theme.colors.contentBackground.light, 0.2),
+                    },
+                }),
+                ConnectWallet: (props: StyleFunctionProps) => ({
+                    bg: props.theme.colors.blue,
+                    _hover: {
+                        bg: lightenColor(props.theme.colors.blue, 0.1),
+                    },
+                    _active: {
+                        bg: lightenColor(props.theme.colors.blue, 0.2),
+                    },
+                }),
+                ShowResults: (props: StyleFunctionProps) => ({
+                    bg: props.theme.colors.green,
+                    _hover: {
+                        bg: lightenColor(props.theme.colors.green, 0.1),
+                    },
+                    _active: {
+                        bg: lightenColor(props.theme.colors.green, 0.2),
                     },
                 }),
             },
@@ -71,7 +109,7 @@ const customTheme = extendTheme({
         },
         border: {
             light: "#D3D3D3",
-            dark: "#1a0d7b",
+            dark: "#4f4f50",
         },
         checklistBar: {
             light: "#dfdfdf",
