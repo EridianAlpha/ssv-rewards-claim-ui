@@ -2,7 +2,7 @@ import { extendTheme, Input } from "@chakra-ui/react"
 import type { StyleFunctionProps } from "@chakra-ui/styled-system"
 import { cssVar } from "@chakra-ui/theme-tools"
 import { color } from "framer-motion"
-import { lighten, darken, borderRadius, border } from "polished"
+import { lighten, darken, borderRadius, border, borderColor, margin } from "polished"
 
 function lightenColor(mainColor, value) {
     return lighten(value, mainColor)
@@ -16,6 +16,12 @@ const customTheme = extendTheme({
         global: (props: StyleFunctionProps) => ({
             ".bgPage": {
                 bg: props.colorMode === "dark" ? "pageBackground.dark" : "pageBackground.light",
+            },
+            ".contentContainer": {
+                bg:
+                    props.colorMode === "dark"
+                        ? lightenColor(props.theme.colors.pageBackground.dark, 0.05)
+                        : darkenColor(props.theme.colors.contentBackground.light, 0),
             },
         }),
     },
@@ -43,14 +49,45 @@ const customTheme = extendTheme({
                     field: {
                         bg:
                             props.colorMode === "dark"
-                                ? lightenColor(props.theme.colors.pageBackground.dark, 0.1)
-                                : darkenColor(props.theme.colors.contentBackground.light, 0.1),
+                                ? lightenColor(props.theme.colors.pageBackground.dark, 0.05)
+                                : darkenColor(props.theme.colors.contentBackground.light, 0),
                         _focus: {
                             bg:
                                 props.colorMode === "dark"
-                                    ? lightenColor(props.theme.colors.pageBackground.dark, 0.3)
-                                    : darkenColor(props.theme.colors.contentBackground.light, 0.2),
+                                    ? lightenColor(props.theme.colors.pageBackground.dark, 0.15)
+                                    : darkenColor(props.theme.colors.contentBackground.light, 0.1),
                             border: "none",
+                        },
+                    },
+                }),
+            },
+        },
+        Tabs: {
+            variants: {
+                RewardsTabs: (props: StyleFunctionProps) => ({
+                    tab: {
+                        borderRadius: "20px 20px 0px 0px",
+                        borderBottom: "2px solid",
+                        bg:
+                            props.colorMode === "dark"
+                                ? lightenColor(props.theme.colors.pageBackground.dark, 0.05)
+                                : darkenColor(props.theme.colors.contentBackground.light, 0),
+                        _selected: {
+                            borderTop: "2px solid",
+                            borderLeft: "2px solid",
+                            borderRight: "2px solid",
+                            borderBottom: "2px transparent",
+
+                            bg:
+                                props.colorMode === "dark"
+                                    ? lightenColor(props.theme.colors.pageBackground.dark, 0.05)
+                                    : darkenColor(props.theme.colors.contentBackground.light, 0),
+                        },
+                        _hover: {
+                            bg:
+                                props.colorMode === "dark"
+                                    ? lightenColor(props.theme.colors.pageBackground.dark, 0.1)
+                                    : darkenColor(props.theme.colors.contentBackground.light, 0.1),
                         },
                     },
                 }),
@@ -73,7 +110,7 @@ const customTheme = extendTheme({
                                 : darkenColor(props.theme.colors.contentBackground.light, 0.2),
                     },
                 }),
-                ConnectWallet: (props: StyleFunctionProps) => ({
+                ConnectWalletButton: (props: StyleFunctionProps) => ({
                     bg: props.theme.colors.blue,
                     _hover: {
                         bg: lightenColor(props.theme.colors.blue, 0.1),
@@ -82,7 +119,7 @@ const customTheme = extendTheme({
                         bg: lightenColor(props.theme.colors.blue, 0.2),
                     },
                 }),
-                ShowResults: (props: StyleFunctionProps) => ({
+                ShowResultsButton: (props: StyleFunctionProps) => ({
                     bg: props.theme.colors.green,
                     _hover: {
                         bg: lightenColor(props.theme.colors.green, 0.1),
@@ -105,7 +142,7 @@ const customTheme = extendTheme({
         },
         contentBackground: {
             light: "#eaebee",
-            dark: "#0e052c",
+            dark: "#62CFFF",
         },
         border: {
             light: "#D3D3D3",
