@@ -11,7 +11,7 @@ export default function RewardsContainer() {
     }
 
     return (
-        <VStack gap={6} w={"100%"} maxW={"95vw"}>
+        <VStack gap={6} w={"600px"} maxW={"95vw"}>
             <Button px={"80px"} py={6} variant={"ConnectWalletButton"} fontSize={"lg"} fontWeight={"bold"} borderRadius={"full"} maxW={"95vw"}>
                 Connect wallet
             </Button>

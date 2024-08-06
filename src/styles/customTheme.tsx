@@ -73,15 +73,19 @@ const customTheme = extendTheme({
                                 ? lightenColor(props.theme.colors.pageBackground.dark, 0.05)
                                 : darkenColor(props.theme.colors.contentBackground.light, 0),
                         _selected: {
-                            borderTop: "2px solid",
-                            borderLeft: "2px solid",
-                            borderRight: "2px solid",
+                            border: "2px solid",
                             borderBottom: "2px transparent",
-
                             bg:
                                 props.colorMode === "dark"
                                     ? lightenColor(props.theme.colors.pageBackground.dark, 0.05)
                                     : darkenColor(props.theme.colors.contentBackground.light, 0),
+                            _hover: {
+                                bg:
+                                    props.colorMode === "dark"
+                                        ? lightenColor(props.theme.colors.pageBackground.dark, 0.05)
+                                        : darkenColor(props.theme.colors.contentBackground.light, 0.0),
+                                cursor: "default",
+                            },
                         },
                         _hover: {
                             bg:
