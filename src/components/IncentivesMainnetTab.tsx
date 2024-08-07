@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
-import { VStack, HStack, Text, Spinner, Button } from "@chakra-ui/react"
+import { VStack, HStack, Text, Spinner, Button, Link } from "@chakra-ui/react"
+import NextLink from "next/link"
 
 import useFetchLatestFile from "@/hooks/useFetchLatestFile"
 import useFetchPreviouslyClaimedRewards from "@/hooks/useFetchPreviouslyClaimedRewards"
@@ -72,8 +73,18 @@ export default function IncentivesMainnetTab({ address }) {
                 <Text>Previously claimed rewards</Text>
                 <Text>{formatSSVAmount(previouslyClaimedRewards)} SSV</Text>
             </VStack>
-            <Text>View and interact with the rewards contract directly on Etherscan ↗</Text>
-            {/* <Text>https://etherscan.io/address/0xe16d6138B1D2aD4fD6603ACdb329ad1A6cD26D9f</Text> */}
+            <HStack gap={1}>
+                <Text>View and interact with the rewards contract</Text>
+                <Link
+                    as={NextLink}
+                    href={"https://etherscan.io/address/0xe16d6138B1D2aD4fD6603ACdb329ad1A6cD26D9f#readContract"}
+                    color={"blue"}
+                    textDecoration={"underline"}
+                    target="_blank"
+                >
+                    directly on Etherscan ↗
+                </Link>
+            </HStack>
         </VStack>
     )
 }
