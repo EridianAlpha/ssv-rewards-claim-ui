@@ -31,7 +31,7 @@ export default function CurrentAddressInfo({ currentAddress, addressType, resetA
                 aria-label={"Change wallet"}
                 borderRadius={"full"}
                 px={3}
-                h={8}
+                h={10}
                 onClick={() => {
                     resetAddress()
                 }}

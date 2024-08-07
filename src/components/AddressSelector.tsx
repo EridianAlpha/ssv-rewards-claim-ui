@@ -2,7 +2,6 @@ import { useState } from "react"
 import { VStack, Text, Button, Input } from "@chakra-ui/react"
 
 import { ethers } from "ethers"
-
 import { useConnectModal } from "@rainbow-me/rainbowkit"
 
 export default function AddressSelector({ setReadOnlyAddress }) {
@@ -62,6 +61,7 @@ export default function AddressSelector({ setReadOnlyAddress }) {
                     <Input
                         p={5}
                         w={"100%"}
+                        maxW={"480px"}
                         borderTopRadius={"20px"}
                         borderBottomRadius={addressInputValue ? "0px" : "20px"}
                         fontFamily={"monospace"}
@@ -78,7 +78,7 @@ export default function AddressSelector({ setReadOnlyAddress }) {
                             fontWeight={"bold"}
                             borderBottomRadius={"20px"}
                             borderTopRadius={"0px"}
-                            maxW={"95vw"}
+                            maxW={"480px"}
                             width="100%"
                             whiteSpace="normal"
                             overflow="visible"

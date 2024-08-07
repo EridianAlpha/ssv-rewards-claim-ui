@@ -24,7 +24,11 @@ const customTheme = extendTheme({
                         : darkenColor(props.theme.colors.contentBackground.light, 0),
             },
             ".currentAddressInfoContainer": {
-                bg: "green",
+                bg:
+                    props.colorMode === "dark"
+                        ? lightenColor(props.theme.colors.pageBackground.dark, 0.05)
+                        : darkenColor(props.theme.colors.contentBackground.light, 0),
+                border: "5px solid green",
             },
         }),
     },
@@ -118,34 +122,54 @@ const customTheme = extendTheme({
                     },
                 }),
                 ConnectWalletButton: (props: StyleFunctionProps) => ({
-                    bg: props.theme.colors.blue,
+                    border: "3px solid",
+                    borderColor: "blue",
+                    bg:
+                        props.colorMode === "dark"
+                            ? lightenColor(props.theme.colors.pageBackground.dark, 0.05)
+                            : darkenColor(props.theme.colors.contentBackground.light, 0),
                     _hover: {
-                        bg: lightenColor(props.theme.colors.blue, 0.1),
+                        bg: props.colorMode === "dark" ? darkenColor(props.theme.colors.blue, 0.2) : lightenColor(props.theme.colors.blue, 0.2),
                     },
                     _active: {
-                        bg: lightenColor(props.theme.colors.blue, 0.2),
+                        bg: "blue",
                     },
                 }),
                 ShowResultsButton: (props: StyleFunctionProps) => ({
-                    bg: props.theme.colors.green,
+                    border: "3px solid",
+                    borderColor: "green",
+                    bg:
+                        props.colorMode === "dark"
+                            ? lightenColor(props.theme.colors.pageBackground.dark, 0.05)
+                            : darkenColor(props.theme.colors.contentBackground.light, 0),
                     _hover: {
-                        bg: lightenColor(props.theme.colors.green, 0.1),
+                        bg: props.colorMode === "dark" ? darkenColor(props.theme.colors.green, 0.2) : lightenColor(props.theme.colors.green, 0.2),
                     },
                     _active: {
-                        bg: lightenColor(props.theme.colors.green, 0.2),
+                        bg: "green",
                     },
                 }),
                 ChangeWalletButton: (props: StyleFunctionProps) => ({
-                    bg: props.theme.colors.orange,
+                    border: "3px solid",
+                    borderColor: "orange",
+                    bg:
+                        props.colorMode === "dark"
+                            ? lightenColor(props.theme.colors.pageBackground.dark, 0.05)
+                            : darkenColor(props.theme.colors.contentBackground.light, 0),
                     _hover: {
-                        bg: lightenColor(props.theme.colors.orange, 0.1),
+                        bg: props.colorMode === "dark" ? darkenColor(props.theme.colors.orange, 0.2) : lightenColor(props.theme.colors.orange, 0.2),
                     },
                     _active: {
-                        bg: lightenColor(props.theme.colors.orange, 0.2),
+                        bg: "orange",
                     },
                 }),
                 ShowResultsButtonError: (props: StyleFunctionProps) => ({
-                    bg: props.theme.colors.red,
+                    border: "3px solid",
+                    borderColor: "red",
+                    bg:
+                        props.colorMode === "dark"
+                            ? lightenColor(props.theme.colors.pageBackground.dark, 0.05)
+                            : darkenColor(props.theme.colors.contentBackground.light, 0),
                     cursor: "default",
                 }),
             },
