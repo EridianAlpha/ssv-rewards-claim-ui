@@ -14,5 +14,5 @@ export default function useFetchLatestFile(setMerkleProof, setMerkleProofDate, t
             setMerkleProofDate(formattedDate)
         }
         fetchLatestFile()
-    }, [])
+    }, [setMerkleProof, setMerkleProofDate, type])
 }

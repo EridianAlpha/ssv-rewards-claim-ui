@@ -52,13 +52,11 @@ export default function IncentivesMainnetTab({ address }) {
             </VStack>
             <VStack>
                 <Text fontSize={"2xl"}>Unclaimed Rewards</Text>
-                <Text fontSize={"3xl"} color={unclaimedRewards > 0 ? "green" : "none"}>
-                    <HStack gap={6}>
-                        <Text>{unclaimedRewards > 0 ? "🥳" : "😔"}</Text>
-                        <Text>{formatSSVAmount(unclaimedRewards)} SSV</Text>
-                        <Text>{unclaimedRewards > 0 ? "🥳" : "😔"}</Text>
-                    </HStack>
-                </Text>
+                <HStack gap={6} fontSize={"3xl"} color={unclaimedRewards > 0 ? "green" : "none"}>
+                    <Text>{unclaimedRewards > 0 ? "🥳" : "😔"}</Text>
+                    <Text>{formatSSVAmount(unclaimedRewards)} SSV</Text>
+                    <Text>{unclaimedRewards > 0 ? "🥳" : "😔"}</Text>
+                </HStack>
             </VStack>
             {unclaimedRewards > 0 ? (
                 <Button py={4} px={8} variant={"ConnectWalletButton"} fontSize={"lg"} borderRadius={"full"} whiteSpace={"normal"} h="fit-content">

@@ -19,5 +19,5 @@ export default function useFetchLatestFile(type, address, merkleProof, setMerkle
         if (!addressFoundInMerkleProof) {
             setIsLoading(false)
         }
-    }, [address, merkleProof])
+    }, [address, merkleProof, setMerkleProofEntry, setPreviouslyClaimedRewards, setIsLoading, type])
 }
