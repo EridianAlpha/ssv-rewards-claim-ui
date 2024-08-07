@@ -12,6 +12,22 @@ export default function AddressSelector({ setReadOnlyAddress }) {
         setIsReadOnlyAddressError(false)
     }
 
+    const handleKeyPress = (event) => {
+        if (event.key === "Enter") {
+            handleButtonClick()
+        }
+    }
+
+    const handleButtonClick = () => {
+        if (ethers.isAddress(addressInputValue)) {
+            setIsReadOnlyAddressError(false)
+            setReadOnlyAddress(addressInputValue)
+        } else {
+            setIsReadOnlyAddressError(true)
+            setReadOnlyAddress(null)
+        }
+    }
+
     return (
         <>
             <Text fontWeight={"extrabold"} fontSize={"3xl"} textAlign={"center"}>
@@ -37,6 +53,7 @@ export default function AddressSelector({ setReadOnlyAddress }) {
                         placeholder="0x..."
                         value={addressInputValue}
                         onChange={handleInputChange}
+                        onKeyDown={handleKeyPress}
                         border={"none"}
                         variant={"AddressInput"}
                     />
@@ -51,15 +68,7 @@ export default function AddressSelector({ setReadOnlyAddress }) {
                             whiteSpace="normal"
                             overflow="visible"
                             textOverflow="clip"
-                            onClick={() => {
-                                if (ethers.isAddress(addressInputValue)) {
-                                    setIsReadOnlyAddressError(false)
-                                    setReadOnlyAddress(addressInputValue)
-                                } else {
-                                    setIsReadOnlyAddressError(true)
-                                    setReadOnlyAddress(null)
-                                }
-                            }}
+                            onClick={handleButtonClick}
                         >
                             {isReadOnlyAddressError ? "Invalid address - Please enter a valid Ethereum address" : "Find rewards"}
                         </Button>
