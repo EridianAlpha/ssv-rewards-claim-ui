@@ -14,6 +14,9 @@ export default function AddressSelector({ setReadOnlyAddress }) {
 
     return (
         <>
+            <Text fontWeight={"extrabold"} fontSize={"3xl"} textAlign={"center"}>
+                Claim all your SSV Rewards here
+            </Text>
             <Button px={"80px"} py={6} variant={"ConnectWalletButton"} fontSize={"lg"} fontWeight={"bold"} borderRadius={"full"} maxW={"95vw"}>
                 Connect wallet
             </Button>

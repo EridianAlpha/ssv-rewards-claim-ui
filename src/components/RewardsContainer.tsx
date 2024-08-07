@@ -9,7 +9,7 @@ export default function RewardsContainer() {
     const [readOnlyAddress, setReadOnlyAddress] = useState(null)
 
     return (
-        <VStack gap={!readOnlyAddress ? 10 : 16} w={"600px"} maxW={"95vw"}>
+        <VStack gap={10} w={"600px"} maxW={"95vw"}>
             {!readOnlyAddress && <AddressSelector setReadOnlyAddress={setReadOnlyAddress} />}
             {readOnlyAddress && (
                 <CurrentAddressInfo currentAddress={readOnlyAddress} addressType={"readOnlyAddress"} resetAddress={setReadOnlyAddress} />
