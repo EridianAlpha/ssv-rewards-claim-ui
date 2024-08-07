@@ -1,9 +1,9 @@
 import { useState } from "react"
-import { VStack, Text, Tabs, TabList, Tab, TabPanels, TabPanel } from "@chakra-ui/react"
+import { VStack, Text, Tabs, TabList, Tab, TabPanels, TabPanel, Spinner } from "@chakra-ui/react"
 
 import IncentivesMainnetTab from "./IncentivesMainnetTab"
 
-export default function RewardsContainer() {
+export default function RewardsContainer({ address }) {
     const [activeTabIndex, setActiveTabIndex] = useState(0)
 
     const handleTabChange = (index) => {
@@ -27,7 +27,7 @@ export default function RewardsContainer() {
                 </TabList>
                 <TabPanels className="contentContainer" border={"2px solid"} borderTop={"none"} borderBottomRadius={"20px"}>
                     <TabPanel>
-                        <IncentivesMainnetTab />
+                        <IncentivesMainnetTab address={address} />
                     </TabPanel>
                     <TabPanel>
                         <Text minH={"400px"} pt={10} textAlign={"center"} fontWeight={"bold"}>

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Box, VStack, Text, Button, Input } from "@chakra-ui/react"
+import { VStack } from "@chakra-ui/react"
 
 import RewardProgramTabs from "./RewardProgramTabs"
 import AddressSelector from "./AddressSelector"
@@ -15,7 +15,7 @@ export default function RewardsContainer() {
                 <CurrentAddressInfo currentAddress={readOnlyAddress} addressType={"readOnlyAddress"} resetAddress={setReadOnlyAddress} />
             )}
             {/* {connectedWallet && <CurrentAddressInfo currentAddress={connectedWallet.address} addressType={"connectedWallet"} />} */}
-            {readOnlyAddress && <RewardProgramTabs />}
+            {readOnlyAddress && <RewardProgramTabs address={readOnlyAddress /* || connectedWalletAddress */} />}
         </VStack>
     )
 }
