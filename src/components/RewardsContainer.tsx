@@ -22,7 +22,9 @@ export default function RewardsContainer() {
             {connectedWalletAddress && (
                 <CurrentAddressInfo currentAddress={connectedWalletAddress} addressType={"connectedWallet"} resetAddress={disconnect} />
             )}
-            {(readOnlyAddress || connectedWalletAddress) && <RewardProgramTabs address={readOnlyAddress || connectedWalletAddress} />}
+            {(readOnlyAddress || connectedWalletAddress) && (
+                <RewardProgramTabs address={readOnlyAddress || connectedWalletAddress} resetReadOnlyAddress={setReadOnlyAddress} />
+            )}
         </VStack>
     )
 }

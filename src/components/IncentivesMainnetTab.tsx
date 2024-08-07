@@ -5,7 +5,10 @@ import NextLink from "next/link"
 import useFetchLatestFile from "@/hooks/useFetchLatestFile"
 import useFetchPreviouslyClaimedRewards from "@/hooks/useFetchPreviouslyClaimedRewards"
 
-export default function IncentivesMainnetTab({ address }) {
+import { useAccount } from "wagmi"
+import { useConnectModal } from "@rainbow-me/rainbowkit"
+
+export default function IncentivesMainnetTab({ address, resetReadOnlyAddress }) {
     const [merkleProof, setMerkleProof] = useState(null)
     const [merkleProofDate, setMerkleProofDate] = useState(null)
     const [merkleProofEntry, setMerkleProofEntry] = useState(null)
@@ -13,6 +16,9 @@ export default function IncentivesMainnetTab({ address }) {
     const [unclaimedRewards, setUnclaimedRewards] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const [minimumDelayLoading, setMinimumDelayLoading] = useState(true)
+
+    const { address: connectedWalletAddress, isConnected } = useAccount()
+    const { openConnectModal } = useConnectModal()
 
     // UseEffect - Fetch the latest Merkle Proof file
     useFetchLatestFile(setMerkleProof, setMerkleProofDate, "mainnetIncentives")
@@ -59,8 +65,20 @@ export default function IncentivesMainnetTab({ address }) {
                     <Text>{unclaimedRewards > 0 ? "🥳" : "😔"}</Text>
                 </HStack>
             </VStack>
-            {unclaimedRewards > 0 ? (
-                <Button py={4} px={8} variant={"ConnectWalletButton"} fontSize={"lg"} borderRadius={"full"} whiteSpace={"normal"} h="fit-content">
+            {unclaimedRewards > 0 && !isConnected ? (
+                <Button
+                    py={4}
+                    px={8}
+                    variant={"ConnectWalletButton"}
+                    fontSize={"lg"}
+                    borderRadius={"full"}
+                    whiteSpace={"normal"}
+                    h="fit-content"
+                    onClick={() => {
+                        openConnectModal()
+                        resetReadOnlyAddress()
+                    }}
+                >
                     Connect wallet to claim rewards
                 </Button>
             ) : (
