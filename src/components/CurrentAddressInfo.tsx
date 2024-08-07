@@ -33,7 +33,7 @@ export default function CurrentAddressInfo({ currentAddress, addressType, resetA
                 px={3}
                 h={8}
                 onClick={() => {
-                    resetAddress(null)
+                    resetAddress()
                 }}
             >
                 <HStack gap={3}>

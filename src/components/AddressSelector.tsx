@@ -3,9 +3,13 @@ import { VStack, Text, Button, Input } from "@chakra-ui/react"
 
 import { ethers } from "ethers"
 
+import { useConnectModal } from "@rainbow-me/rainbowkit"
+
 export default function AddressSelector({ setReadOnlyAddress }) {
     const [addressInputValue, setAddressInputValue] = useState("")
     const [isReadOnlyAddressError, setIsReadOnlyAddressError] = useState(false)
+
+    const { openConnectModal } = useConnectModal()
 
     const handleInputChange = (event) => {
         setAddressInputValue(event.target.value)
@@ -33,7 +37,18 @@ export default function AddressSelector({ setReadOnlyAddress }) {
             <Text fontWeight={"extrabold"} fontSize={"3xl"} textAlign={"center"}>
                 Claim all your SSV Rewards here
             </Text>
-            <Button px={"80px"} py={6} variant={"ConnectWalletButton"} fontSize={"lg"} fontWeight={"bold"} borderRadius={"full"} maxW={"95vw"}>
+            <Button
+                px={"80px"}
+                py={6}
+                variant={"ConnectWalletButton"}
+                fontSize={"lg"}
+                fontWeight={"bold"}
+                borderRadius={"full"}
+                maxW={"95vw"}
+                onClick={() => {
+                    openConnectModal()
+                }}
+            >
                 Connect wallet
             </Button>
             <Text fontSize={"xl"} fontWeight={"bold"}>

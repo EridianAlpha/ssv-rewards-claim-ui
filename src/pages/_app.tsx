@@ -7,9 +7,9 @@ import customTheme from "../styles/customTheme"
 
 import { ChakraProvider, ColorModeScript, useColorModeValue } from "@chakra-ui/react"
 
-import { config } from "@fortawesome/fontawesome-svg-core"
+import { config as fontAwesomeConfig } from "@fortawesome/fontawesome-svg-core"
 import "@fortawesome/fontawesome-svg-core/styles.css"
-config.autoAddCss = false
+fontAwesomeConfig.autoAddCss = false
 
 // Set the HTML background color to match the Chakra UI background color
 const HtmlBackgroundColor = () => {

@@ -14,6 +14,7 @@ import {
     DrawerContent,
     DrawerCloseButton,
     useColorMode,
+    useColorModeValue,
 } from "@chakra-ui/react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faDiscord, faGithub } from "@fortawesome/free-brands-svg-icons"
