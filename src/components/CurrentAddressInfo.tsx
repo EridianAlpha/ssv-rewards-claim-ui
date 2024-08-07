@@ -6,7 +6,7 @@ import { faRightFromBracket, faRotate } from "@fortawesome/free-solid-svg-icons"
 
 export default function CurrentAddressInfo({ currentAddress, addressType, resetAddress }) {
     return (
-        <VStack gap={3}>
+        <VStack gap={3} cursor={"default"}>
             <VStack className="currentAddressInfoContainer" p={3} borderRadius={"20px"} maxW="95vw">
                 <Text fontWeight={"bold"} fontSize={"lg"} whiteSpace="normal" overflow="visible" textOverflow="clip" textAlign={"center"}>
                     {addressType === "readOnlyAddress" ? "Viewing read-only rewards for address" : "Connected wallet"}
