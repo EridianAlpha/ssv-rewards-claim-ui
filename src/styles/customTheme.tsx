@@ -1,8 +1,8 @@
-import { extendTheme, Input } from "@chakra-ui/react"
+import { extendTheme } from "@chakra-ui/react"
 import type { StyleFunctionProps } from "@chakra-ui/styled-system"
 import { cssVar } from "@chakra-ui/theme-tools"
 import { color } from "framer-motion"
-import { lighten, darken, borderRadius, border, borderColor, margin } from "polished"
+import { lighten, darken } from "polished"
 
 function lightenColor(mainColor, value) {
     return lighten(value, mainColor)
@@ -149,7 +149,7 @@ const customTheme = extendTheme({
                         bg: "green",
                     },
                 }),
-                ChangeWalletButton: (props: StyleFunctionProps) => ({
+                WalletButton: (props: StyleFunctionProps) => ({
                     border: "3px solid",
                     borderColor: "orange",
                     bg:
@@ -173,6 +173,26 @@ const customTheme = extendTheme({
                     cursor: "default",
                 }),
             },
+        },
+        Checkbox: {
+            baseStyle: (props: StyleFunctionProps) => ({
+                container: {
+                    _hover: {
+                        ".chakra-checkbox__control": {
+                            bg: props.colorMode === "dark" ? "pageBackground.dark" : "pageBackground.light",
+                        },
+                    },
+                },
+                control: {
+                    _checked: {
+                        color: "white",
+                        borderColor: props.colorMode === "dark" ? "border.dark" : "border.light",
+                    },
+                    _hover: {
+                        bg: props.colorMode === "dark" ? "pageBackground.dark" : "pageBackground.light",
+                    },
+                },
+            }),
         },
     },
     colors: {

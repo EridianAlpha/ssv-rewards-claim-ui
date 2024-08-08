@@ -1,35 +1,11 @@
-import { useState } from "react"
-import { VStack, Text, Button, Input } from "@chakra-ui/react"
+import { VStack, Text, Button } from "@chakra-ui/react"
 
-import { ethers } from "ethers"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
 
-export default function AddressSelector({ setReadOnlyAddress }) {
-    const [addressInputValue, setAddressInputValue] = useState("")
-    const [isReadOnlyAddressError, setIsReadOnlyAddressError] = useState(false)
+import AddressInput from "./AddressInput"
 
+export default function AddressSelector({ rewardsAddress, setRewardsAddress }) {
     const { openConnectModal } = useConnectModal()
-
-    const handleInputChange = (event) => {
-        setAddressInputValue(event.target.value)
-        setIsReadOnlyAddressError(false)
-    }
-
-    const handleKeyPress = (event) => {
-        if (event.key === "Enter") {
-            handleButtonClick()
-        }
-    }
-
-    const handleButtonClick = () => {
-        if (ethers.isAddress(addressInputValue)) {
-            setIsReadOnlyAddressError(false)
-            setReadOnlyAddress(addressInputValue)
-        } else {
-            setIsReadOnlyAddressError(true)
-            setReadOnlyAddress(null)
-        }
-    }
 
     return (
         <>
@@ -57,38 +33,7 @@ export default function AddressSelector({ setReadOnlyAddress }) {
                 <Text textAlign={"center"} maxW={"90vw"} fontWeight={"bold"}>
                     Enter an Ethereum address to view your rewards
                 </Text>
-                <VStack gap={0} w="100%">
-                    <Input
-                        p={5}
-                        w={"100%"}
-                        maxW={"480px"}
-                        borderTopRadius={"20px"}
-                        borderBottomRadius={addressInputValue ? "0px" : "20px"}
-                        fontFamily={"monospace"}
-                        placeholder="0x..."
-                        value={addressInputValue}
-                        onChange={handleInputChange}
-                        onKeyDown={handleKeyPress}
-                        border={"none"}
-                        variant={"AddressInput"}
-                    />
-                    {addressInputValue && (
-                        <Button
-                            variant={!isReadOnlyAddressError ? "ShowResultsButton" : "ShowResultsButtonError"}
-                            fontWeight={"bold"}
-                            borderBottomRadius={"20px"}
-                            borderTopRadius={"0px"}
-                            maxW={"480px"}
-                            width="100%"
-                            whiteSpace="normal"
-                            overflow="visible"
-                            textOverflow="clip"
-                            onClick={handleButtonClick}
-                        >
-                            {isReadOnlyAddressError ? "Invalid address - Please enter a valid Ethereum address" : "Find rewards"}
-                        </Button>
-                    )}
-                </VStack>
+                <AddressInput rewardsAddress={rewardsAddress} setRewardsAddress={setRewardsAddress} />
             </VStack>
         </>
     )

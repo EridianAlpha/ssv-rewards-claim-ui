@@ -8,7 +8,7 @@ import useFetchPreviouslyClaimedRewards from "@/hooks/useFetchPreviouslyClaimedR
 import { useAccount } from "wagmi"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
 
-export default function IncentivesMainnetTab({ address, resetReadOnlyAddress }) {
+export default function IncentivesMainnetTab({ address }) {
     const [merkleProof, setMerkleProof] = useState(null)
     const [merkleProofDate, setMerkleProofDate] = useState(null)
     const [merkleProofEntry, setMerkleProofEntry] = useState(null)
@@ -76,7 +76,6 @@ export default function IncentivesMainnetTab({ address, resetReadOnlyAddress }) 
                     h="fit-content"
                     onClick={() => {
                         openConnectModal()
-                        resetReadOnlyAddress()
                     }}
                 >
                     Connect wallet to claim rewards

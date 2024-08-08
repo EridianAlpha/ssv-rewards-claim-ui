@@ -5,25 +5,20 @@ import RewardProgramTabs from "./RewardProgramTabs"
 import AddressSelector from "./AddressSelector"
 import CurrentAddressInfo from "./CurrentAddressInfo"
 
-import { useAccount, useDisconnect } from "wagmi"
+import { useAccount } from "wagmi"
 
 export default function RewardsContainer() {
-    const [readOnlyAddress, setReadOnlyAddress] = useState(null)
-
+    const [rewardsAddress, setRewardsAddress] = useState(null)
     const { address: connectedWalletAddress, isConnected } = useAccount()
-    const { disconnect } = useDisconnect()
 
     return (
         <VStack gap={10} w={"600px"} maxW={"95vw"}>
-            {!readOnlyAddress && !isConnected && <AddressSelector setReadOnlyAddress={setReadOnlyAddress} />}
-            {readOnlyAddress && (
-                <CurrentAddressInfo currentAddress={readOnlyAddress} addressType={"readOnlyAddress"} resetAddress={setReadOnlyAddress} />
+            {!isConnected && !rewardsAddress && <AddressSelector rewardsAddress={rewardsAddress} setRewardsAddress={setRewardsAddress} />}
+            {(connectedWalletAddress || rewardsAddress) && (
+                <CurrentAddressInfo rewardsAddress={rewardsAddress} setRewardsAddress={setRewardsAddress} />
             )}
-            {connectedWalletAddress && (
-                <CurrentAddressInfo currentAddress={connectedWalletAddress} addressType={"connectedWallet"} resetAddress={disconnect} />
-            )}
-            {(readOnlyAddress || connectedWalletAddress) && (
-                <RewardProgramTabs address={readOnlyAddress || connectedWalletAddress} resetReadOnlyAddress={setReadOnlyAddress} />
+            {(rewardsAddress || connectedWalletAddress) && (
+                <RewardProgramTabs address={rewardsAddress || connectedWalletAddress} resetRewardsAddress={setRewardsAddress} />
             )}
         </VStack>
     )

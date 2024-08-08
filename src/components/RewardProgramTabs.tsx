@@ -3,7 +3,7 @@ import { VStack, Text, Tabs, TabList, Tab, TabPanels, TabPanel, Spinner } from "
 
 import IncentivesMainnetTab from "./IncentivesMainnetTab"
 
-export default function RewardsContainer({ address, resetReadOnlyAddress }) {
+export default function RewardsContainer({ address, resetRewardsAddress }) {
     const [activeTabIndex, setActiveTabIndex] = useState(0)
 
     const handleTabChange = (index) => {
@@ -27,7 +27,7 @@ export default function RewardsContainer({ address, resetReadOnlyAddress }) {
                 </TabList>
                 <TabPanels className="contentContainer" border={"2px solid"} borderTop={"none"} borderBottomRadius={"20px"}>
                     <TabPanel>
-                        <IncentivesMainnetTab address={address} resetReadOnlyAddress={resetReadOnlyAddress} />
+                        <IncentivesMainnetTab address={address} />
                     </TabPanel>
                     <TabPanel>
                         <Text minH={"400px"} pt={10} textAlign={"center"} fontWeight={"bold"}>
