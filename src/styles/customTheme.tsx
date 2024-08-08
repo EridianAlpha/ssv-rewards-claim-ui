@@ -144,17 +144,18 @@ const customTheme = extendTheme({
                     },
                 }),
                 ClaimRewardsButton: (props: StyleFunctionProps) => ({
+                    filter: "brightness(1.5)",
                     bg:
                         props.colorMode === "dark"
                             ? lightenColor(props.theme.colors.pageBackground.dark, 0.05)
                             : darkenColor(props.theme.colors.contentBackground.light, 0),
                     _hover: {
-                        filter: "brightness(1.3)",
+                        transform: "scale(1.05)",
                     },
                     _active: {
-                        filter: "brightness(1.5)",
+                        filter: "brightness(1.7)",
                     },
-                    backgroundImage: "linear-gradient(270deg, orange, red, blue, purple, pink, purple, blue, red, orange)",
+                    backgroundImage: "linear-gradient(270deg, pink, purple, blue, red, blue, purple, pink)",
                     backgroundSize: "1000% 1000%",
                     animation: `${rainbowAnimation} 20s linear infinite`,
                     textShadow: "0px 0px 2px black",
