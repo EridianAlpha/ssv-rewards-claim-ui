@@ -66,7 +66,7 @@ export default function CurrentAddressInfo({ rewardsAddress, setRewardsAddress, 
                 </Text>
                 {isConnected && (
                     <VStack w={"100%"} gap={2} pt={3} pl={1}>
-                        <HStack w={"100%"}>
+                        <VStack w={"100%"} alignItems={"start"}>
                             <Checkbox
                                 size={"lg"}
                                 pl={1}
@@ -76,10 +76,16 @@ export default function CurrentAddressInfo({ rewardsAddress, setRewardsAddress, 
                             >
                                 <Text>Claim rewards on behalf of a different address</Text>
                             </Checkbox>
-                        </HStack>
+                        </VStack>
                         {useAlternativeAddress && (
                             <VStack className="bgPage" w={"100%"} borderRadius={"30px"} px={3} py={3}>
                                 <AddressInput rewardsAddress={rewardsAddress} setRewardsAddress={setRewardsAddress} />
+                                {rewardsAddress == connectedWalletAddress && (
+                                    <VStack gap={0} color="gold" textAlign={"center"}>
+                                        <Text>⚠️ Connected wallet and reward wallet are the same ⚠️</Text>
+                                        <Text>Did you mean to use the same wallet twice?</Text>
+                                    </VStack>
+                                )}
                             </VStack>
                         )}
                     </VStack>
