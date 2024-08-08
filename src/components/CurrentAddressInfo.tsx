@@ -8,17 +8,16 @@ import { useAccount, useDisconnect } from "wagmi"
 
 import AddressInput from "./AddressInput"
 
-export default function CurrentAddressInfo({ rewardsAddress, setRewardsAddress }) {
-    const [isExpanded, setIsExpanded] = useState(rewardsAddress ? true : false)
-
+export default function CurrentAddressInfo({ rewardsAddress, setRewardsAddress, useAlternativeAddress, setUseAlternativeAddress }) {
     const { address: connectedWalletAddress, isConnected } = useAccount()
     const { disconnect } = useDisconnect()
 
+    // UseEffect - When the user toggles the alternative address checkbox, reset the rewards address
     useEffect(() => {
-        if (!isExpanded) {
+        if (isConnected && !useAlternativeAddress) {
             setRewardsAddress(null)
         }
-    }, [isExpanded])
+    }, [useAlternativeAddress])
 
     const WalletButton = ({ buttonText, height }) => {
         return (
@@ -29,6 +28,7 @@ export default function CurrentAddressInfo({ rewardsAddress, setRewardsAddress }
                 px={3}
                 h={height}
                 onClick={() => {
+                    setUseAlternativeAddress()
                     setRewardsAddress()
                     disconnect()
                 }}
@@ -67,11 +67,17 @@ export default function CurrentAddressInfo({ rewardsAddress, setRewardsAddress }
                 {isConnected && (
                     <VStack w={"100%"} gap={2} pt={3} pl={1}>
                         <HStack w={"100%"}>
-                            <Checkbox size={"lg"} pl={1} pr={3} isChecked={isExpanded} onChange={() => setIsExpanded(!isExpanded)}>
+                            <Checkbox
+                                size={"lg"}
+                                pl={1}
+                                pr={3}
+                                isChecked={useAlternativeAddress}
+                                onChange={() => setUseAlternativeAddress(!useAlternativeAddress)}
+                            >
                                 <Text>Claim rewards on behalf of a different address</Text>
                             </Checkbox>
                         </HStack>
-                        {isExpanded && (
+                        {useAlternativeAddress && (
                             <VStack className="bgPage" w={"100%"} borderRadius={"30px"} px={3} py={3}>
                                 <AddressInput rewardsAddress={rewardsAddress} setRewardsAddress={setRewardsAddress} />
                             </VStack>
@@ -79,7 +85,7 @@ export default function CurrentAddressInfo({ rewardsAddress, setRewardsAddress }
                     </VStack>
                 )}
             </VStack>
-            {!isConnected && <WalletButton buttonText={"View another address"} height={10} />}
+            {!isConnected && <WalletButton buttonText={"Check another address"} height={10} />}
         </VStack>
     )
 }

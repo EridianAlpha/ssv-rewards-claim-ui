@@ -30,15 +30,18 @@ export default function IncentivesMainnetTab({ address }) {
     useEffect(() => {
         if (merkleProofEntry) {
             setUnclaimedRewards(merkleProofEntry.amount - previouslyClaimedRewards)
+        } else {
+            setUnclaimedRewards(null)
         }
     }, [merkleProofEntry, previouslyClaimedRewards])
 
     // Add a minimum delay to the loading spinner so that it doesn't flash too quickly to see
     useEffect(() => {
+        setMinimumDelayLoading(true)
         setTimeout(() => {
             setMinimumDelayLoading(false)
         }, 600)
-    }, [])
+    }, [address])
 
     if (minimumDelayLoading || isLoading) {
         return (
@@ -65,7 +68,7 @@ export default function IncentivesMainnetTab({ address }) {
                     <Text>{unclaimedRewards > 0 ? "🥳" : "😔"}</Text>
                 </HStack>
             </VStack>
-            {unclaimedRewards > 0 && !isConnected ? (
+            {unclaimedRewards > 0 && !isConnected && (
                 <Button
                     py={4}
                     px={8}
@@ -80,8 +83,25 @@ export default function IncentivesMainnetTab({ address }) {
                 >
                     Connect wallet to claim rewards
                 </Button>
-            ) : (
-                <VStack gap={0} className={"bgPage"} borderRadius={"20px"} py={3} px={5}>
+            )}
+            {unclaimedRewards > 0 && isConnected && (
+                <Button
+                    py={4}
+                    px={8}
+                    variant={"ConnectWalletButton"}
+                    fontSize={"lg"}
+                    borderRadius={"full"}
+                    whiteSpace={"normal"}
+                    h="fit-content"
+                    onClick={() => {
+                        console.log("Claiming rewards...")
+                    }}
+                >
+                    Claim rewards
+                </Button>
+            )}
+            {(!unclaimedRewards || unclaimedRewards == 0) && (
+                <VStack gap={1} className={"bgPage"} borderRadius={"20px"} py={3} px={5}>
                     <Text>It looks like you do not have any rewards to claim right now.</Text>
                     <Text>Try checking again when the results have been updated.</Text>
                 </VStack>

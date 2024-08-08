@@ -4,19 +4,26 @@ export default function useFetchLatestFile(type, address, merkleProof, setMerkle
     useEffect(() => {
         let addressFoundInMerkleProof = false
 
+        // Reset values before fetching new data
+        setIsLoading(true)
+        setMerkleProofEntry(null)
+        setPreviouslyClaimedRewards(null)
+
         if (address && merkleProof) {
-            merkleProof.data.map(async (entry) => {
+            const fetchRequests = merkleProof.data.map(async (entry) => {
                 if (entry.address == address) {
                     setMerkleProofEntry(entry)
                     const fetchPreviouslyClaimedRewardsResponse = await fetch(`/api/fetchPreviouslyClaimedRewards/?type=${type}&address=${address}`)
                     const responseJson = await fetchPreviouslyClaimedRewardsResponse.json()
                     setPreviouslyClaimedRewards(responseJson.cumulativeClaimed)
-                    setIsLoading(false)
                     addressFoundInMerkleProof = true
                 }
             })
-        }
-        if (!addressFoundInMerkleProof) {
+
+            Promise.all(fetchRequests).then(() => {
+                setIsLoading(false)
+            })
+        } else {
             setIsLoading(false)
         }
     }, [address, merkleProof, setMerkleProofEntry, setPreviouslyClaimedRewards, setIsLoading, type])
