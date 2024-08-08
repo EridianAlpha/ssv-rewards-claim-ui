@@ -68,36 +68,26 @@ export default function IncentivesMainnetTab({ address }) {
                     <Text>{unclaimedRewards > 0 ? "🥳" : "😔"}</Text>
                 </HStack>
             </VStack>
-            {unclaimedRewards > 0 && !isConnected && (
+            {unclaimedRewards > 0 && (
                 <Button
+                    w={"100%"}
+                    maxW={"400px"}
                     py={4}
                     px={8}
-                    variant={"ConnectWalletButton"}
+                    variant={isConnected ? "ClaimRewardsButton" : "ConnectWalletButton"}
                     fontSize={"lg"}
                     borderRadius={"full"}
                     whiteSpace={"normal"}
                     h="fit-content"
                     onClick={() => {
-                        openConnectModal()
+                        if (!isConnected) {
+                            openConnectModal()
+                        } else {
+                            console.log("Claiming rewards...")
+                        }
                     }}
                 >
-                    Connect wallet to claim rewards
-                </Button>
-            )}
-            {unclaimedRewards > 0 && isConnected && (
-                <Button
-                    py={4}
-                    px={8}
-                    variant={"ConnectWalletButton"}
-                    fontSize={"lg"}
-                    borderRadius={"full"}
-                    whiteSpace={"normal"}
-                    h="fit-content"
-                    onClick={() => {
-                        console.log("Claiming rewards...")
-                    }}
-                >
-                    Claim rewards
+                    {isConnected ? "Claim rewards" : "Connect wallet to claim rewards"}
                 </Button>
             )}
             {(!unclaimedRewards || unclaimedRewards == 0) && (

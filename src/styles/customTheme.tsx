@@ -4,12 +4,20 @@ import { cssVar } from "@chakra-ui/theme-tools"
 import { color } from "framer-motion"
 import { lighten, darken } from "polished"
 
+import { keyframes } from "@emotion/react"
+
 function lightenColor(mainColor, value) {
     return lighten(value, mainColor)
 }
 function darkenColor(mainColor, value) {
     return darken(value, mainColor)
 }
+
+const rainbowAnimation = keyframes`
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+`
 
 const customTheme = extendTheme({
     styles: {
@@ -134,6 +142,22 @@ const customTheme = extendTheme({
                     _active: {
                         bg: "blue",
                     },
+                }),
+                ClaimRewardsButton: (props: StyleFunctionProps) => ({
+                    bg:
+                        props.colorMode === "dark"
+                            ? lightenColor(props.theme.colors.pageBackground.dark, 0.05)
+                            : darkenColor(props.theme.colors.contentBackground.light, 0),
+                    _hover: {
+                        filter: "brightness(1.3)",
+                    },
+                    _active: {
+                        filter: "brightness(1.5)",
+                    },
+                    backgroundImage: "linear-gradient(270deg, orange, red, blue, purple, pink, purple, blue, red, orange)",
+                    backgroundSize: "1000% 1000%",
+                    animation: `${rainbowAnimation} 20s linear infinite`,
+                    textShadow: "0px 0px 2px black",
                 }),
                 ShowResultsButton: (props: StyleFunctionProps) => ({
                     border: "3px solid",
