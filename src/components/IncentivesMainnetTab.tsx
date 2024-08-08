@@ -8,7 +8,11 @@ import useFetchPreviouslyClaimedRewards from "@/hooks/useFetchPreviouslyClaimedR
 import { useAccount } from "wagmi"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
 
+import SendTransactionButton from "./SendTransactionButton"
+
 export default function IncentivesMainnetTab({ address }) {
+    const rewardsType = "mainnetIncentives"
+
     const [merkleProof, setMerkleProof] = useState(null)
     const [merkleProofDate, setMerkleProofDate] = useState(null)
     const [merkleProofEntry, setMerkleProofEntry] = useState(null)
@@ -16,15 +20,24 @@ export default function IncentivesMainnetTab({ address }) {
     const [unclaimedRewards, setUnclaimedRewards] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const [minimumDelayLoading, setMinimumDelayLoading] = useState(true)
+    const [isTransactionConfirmed, setIsTransactionConfirmed] = useState(false)
 
     const { address: connectedWalletAddress, isConnected } = useAccount()
     const { openConnectModal } = useConnectModal()
 
     // UseEffect - Fetch the latest Merkle Proof file
-    useFetchLatestFile(setMerkleProof, setMerkleProofDate, "mainnetIncentives")
+    useFetchLatestFile(setMerkleProof, setMerkleProofDate, rewardsType)
 
     // UseEffect - When `address` has a value, check to see if it is in the Merkle Proof and get previously claimed rewards
-    useFetchPreviouslyClaimedRewards("mainnetIncentives", address, merkleProof, setMerkleProofEntry, setPreviouslyClaimedRewards, setIsLoading)
+    useFetchPreviouslyClaimedRewards(
+        rewardsType,
+        address,
+        merkleProof,
+        setMerkleProofEntry,
+        setPreviouslyClaimedRewards,
+        setIsLoading,
+        isTransactionConfirmed
+    )
 
     // UseEffect - Calculate the unclaimed rewards
     useEffect(() => {
@@ -35,8 +48,11 @@ export default function IncentivesMainnetTab({ address }) {
         }
     }, [merkleProofEntry, previouslyClaimedRewards])
 
-    // Add a minimum delay to the loading spinner so that it doesn't flash too quickly to see
+    // UseEffect - When address changes
+    // - Add a minimum delay to the loading spinner so that it doesn't flash too quickly to see
+    // - Reset the transaction confirmation state
     useEffect(() => {
+        setIsTransactionConfirmed(false)
         setMinimumDelayLoading(true)
         setTimeout(() => {
             setMinimumDelayLoading(false)
@@ -60,44 +76,55 @@ export default function IncentivesMainnetTab({ address }) {
                     {merkleProofDate}
                 </Text>
             </VStack>
-            <VStack gap={1}>
-                <Text fontSize={"2xl"}>Unclaimed Rewards</Text>
-                <HStack gap={6} fontSize={"3xl"} color={unclaimedRewards > 0 ? "green" : "none"}>
-                    <Text>{unclaimedRewards > 0 ? "🥳" : "😔"}</Text>
-                    <Text>{formatSSVAmount(unclaimedRewards)} SSV</Text>
-                    <Text>{unclaimedRewards > 0 ? "🥳" : "😔"}</Text>
-                </HStack>
-            </VStack>
-            {unclaimedRewards > 0 && (
+            {!isTransactionConfirmed ? (
+                <VStack gap={1}>
+                    <Text fontSize={"2xl"}>Unclaimed Rewards</Text>
+                    <HStack gap={6} fontSize={"3xl"} color={unclaimedRewards > 0 ? "green" : "none"}>
+                        <Text>{unclaimedRewards > 0 ? "🥳" : "😔"}</Text>
+                        <Text>{formatSSVAmount(unclaimedRewards)} SSV</Text>
+                        <Text>{unclaimedRewards > 0 ? "🥳" : "😔"}</Text>
+                    </HStack>
+                </VStack>
+            ) : (
+                <VStack gap={1}>
+                    <Text>Transaction Confirmed!</Text>
+                </VStack>
+            )}
+            {unclaimedRewards > 0 && isConnected && (
+                <SendTransactionButton
+                    rewardsType={rewardsType}
+                    connectedWalletAddress={connectedWalletAddress}
+                    merkleProofRoot={merkleProof.root}
+                    merkleProofEntry={merkleProofEntry}
+                    setIsTransactionConfirmed={setIsTransactionConfirmed}
+                />
+            )}
+            {unclaimedRewards > 0 && !isConnected && (
                 <Button
                     w={"100%"}
                     maxW={"400px"}
                     py={4}
                     px={8}
-                    variant={isConnected ? "ClaimRewardsButton" : "ConnectWalletButton"}
+                    variant={"ConnectWalletButton"}
                     fontSize={"lg"}
                     borderRadius={"full"}
                     whiteSpace={"normal"}
                     h="fit-content"
-                    onClick={() => {
-                        if (!isConnected) {
-                            openConnectModal()
-                        } else {
-                            console.log("Claiming rewards...")
-                        }
+                    onClick={async () => {
+                        openConnectModal()
                     }}
                 >
-                    {isConnected ? "Claim rewards" : "Connect wallet to claim rewards"}
+                    Connect wallet to claim rewards
                 </Button>
             )}
-            {(!unclaimedRewards || unclaimedRewards == 0) && (
+            {!isTransactionConfirmed && (!unclaimedRewards || unclaimedRewards == 0) && (
                 <VStack gap={2} className={"bgPage"} borderRadius={"20px"} py={3} px={5}>
                     <Text>It looks like you do not have any rewards to claim right now.</Text>
                     <Text>Try checking again when the results have been updated.</Text>
                 </VStack>
             )}
             <VStack>
-                <Text>Previously claimed rewards</Text>
+                <Text>Total previously claimed rewards</Text>
                 <Text>{formatSSVAmount(previouslyClaimedRewards)} SSV</Text>
             </VStack>
             <HStack gap={1}>

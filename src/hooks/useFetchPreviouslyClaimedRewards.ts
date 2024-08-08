@@ -1,6 +1,14 @@
 import { useEffect } from "react"
 
-export default function useFetchLatestFile(type, address, merkleProof, setMerkleProofEntry, setPreviouslyClaimedRewards, setIsLoading) {
+export default function useFetchLatestFile(
+    type,
+    address,
+    merkleProof,
+    setMerkleProofEntry,
+    setPreviouslyClaimedRewards,
+    setIsLoading,
+    isTransactionConfirmed
+) {
     useEffect(() => {
         let addressFoundInMerkleProof = false
 
@@ -26,5 +34,5 @@ export default function useFetchLatestFile(type, address, merkleProof, setMerkle
         } else {
             setIsLoading(false)
         }
-    }, [address, merkleProof, setMerkleProofEntry, setPreviouslyClaimedRewards, setIsLoading, type])
+    }, [address, merkleProof, setMerkleProofEntry, setPreviouslyClaimedRewards, setIsLoading, type, isTransactionConfirmed])
 }
