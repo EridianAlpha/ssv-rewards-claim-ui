@@ -8,7 +8,7 @@ export default async function handler(req, res) {
 
     const provider = new ethers.JsonRpcProvider(process.env.JSON_RPC_URL)
 
-    const filePath = path.join(process.cwd(), "public", "data", type, "CumulativeMerkleDropAddress.txt")
+    const filePath = path.join(process.cwd(), "public", "data", type, "CumulativeMerkleDropAddress")
     const contractAddress = fs.readFileSync(filePath, "utf-8")
 
     const cumulativeMerkleDropAbi = ["function cumulativeClaimed(address) view returns (uint256)"]
