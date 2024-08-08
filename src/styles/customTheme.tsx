@@ -28,7 +28,7 @@ const customTheme = extendTheme({
                     props.colorMode === "dark"
                         ? lightenColor(props.theme.colors.pageBackground.dark, 0.05)
                         : darkenColor(props.theme.colors.contentBackground.light, 0),
-                border: "5px solid green",
+                border: "4px solid green",
             },
         }),
     },

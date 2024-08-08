@@ -60,7 +60,7 @@ export default function IncentivesMainnetTab({ address }) {
                     {merkleProofDate}
                 </Text>
             </VStack>
-            <VStack>
+            <VStack gap={1}>
                 <Text fontSize={"2xl"}>Unclaimed Rewards</Text>
                 <HStack gap={6} fontSize={"3xl"} color={unclaimedRewards > 0 ? "green" : "none"}>
                     <Text>{unclaimedRewards > 0 ? "🥳" : "😔"}</Text>
@@ -101,7 +101,7 @@ export default function IncentivesMainnetTab({ address }) {
                 </Button>
             )}
             {(!unclaimedRewards || unclaimedRewards == 0) && (
-                <VStack gap={1} className={"bgPage"} borderRadius={"20px"} py={3} px={5}>
+                <VStack gap={2} className={"bgPage"} borderRadius={"20px"} py={3} px={5}>
                     <Text>It looks like you do not have any rewards to claim right now.</Text>
                     <Text>Try checking again when the results have been updated.</Text>
                 </VStack>
