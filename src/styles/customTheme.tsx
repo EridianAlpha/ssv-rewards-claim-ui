@@ -158,7 +158,7 @@ const customTheme = extendTheme({
                     backgroundImage: "linear-gradient(270deg, pink, purple, blue, red, blue, purple, pink)",
                     backgroundSize: "1000% 1000%",
                     animation: `${rainbowAnimation} 20s linear infinite`,
-                    textShadow: "0px 0px 2px black",
+                    textShadow: "0px 0px 5px black",
                 }),
                 ShowResultsButton: (props: StyleFunctionProps) => ({
                     border: "3px solid",
