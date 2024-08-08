@@ -177,7 +177,7 @@ const customTheme = extendTheme({
     },
     colors: {
         pageBackground: {
-            light: "#FFFFFF",
+            light: "#EFF6FF",
             dark: "#101011",
         },
         pageBackgroundHover: {
@@ -185,7 +185,7 @@ const customTheme = extendTheme({
             dark: "#2a114c",
         },
         contentBackground: {
-            light: "#eaebee",
+            light: "#ffffff",
             dark: "#62CFFF",
         },
         border: {
