@@ -1,6 +1,8 @@
-# Next.js Template Project
+# SSV Rewards Claim UI
 
-This is a template for Next.js projects.
+A simple UI for claiming rewards from the SSV Rewards contract.
+
+🏗️ Under construction 🏗️
 
 ## License
 

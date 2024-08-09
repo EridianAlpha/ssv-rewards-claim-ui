@@ -38,7 +38,15 @@ export default function CurrentAddressInfo({ rewardsAddress, setRewardsAddress, 
         <VStack gap={3} cursor={"default"}>
             <VStack className="currentAddressInfoContainer" p={4} borderRadius={"20px"} maxW="95vw" gap={3}>
                 <HStack w={"100%"} justifyContent={isConnected ? "space-between" : "center"} pl={2} pr={1}>
-                    <Text fontWeight={"bold"} fontSize={"lg"} whiteSpace="normal" overflow="visible" textOverflow="clip" textAlign={"center"}>
+                    <Text
+                        fontWeight={"semibold"}
+                        fontSize={"lg"}
+                        whiteSpace="normal"
+                        overflow="visible"
+                        textOverflow="clip"
+                        textAlign={"center"}
+                        pb={1}
+                    >
                         {!isConnected ? "Viewing read-only rewards for address" : "Connected wallet"}
                     </Text>
                     {isConnected && <WalletButton buttonText={"Disconnect"} height={8} />}

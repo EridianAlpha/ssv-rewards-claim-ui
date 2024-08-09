@@ -4,24 +4,21 @@ import {
     HStack,
     VStack,
     Image,
-    IconButton,
     Button,
     useDisclosure,
     Drawer,
     DrawerBody,
-    DrawerHeader,
     DrawerOverlay,
     DrawerContent,
     DrawerCloseButton,
     useColorMode,
-    useColorModeValue,
 } from "@chakra-ui/react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faDiscord, faGithub } from "@fortawesome/free-brands-svg-icons"
 import { faSun, faMoon, faBars } from "@fortawesome/free-solid-svg-icons"
 import Link from "next/link"
 
-function HeaderButtons({ displayZone }) {
+function HeaderButtons({ displayZone, buttonLabels }) {
     const { colorMode, toggleColorMode } = useColorMode()
 
     return (
@@ -31,11 +28,19 @@ function HeaderButtons({ displayZone }) {
                     Links
                 </Text>
             )}
+            <Link href={"https://ssv.network"} target="_blank">
+                <Button variant={"HeaderButton"} aria-label={"SSV Website"} borderRadius={"full"} p={2}>
+                    <HStack gap={3}>
+                        <Image maxW={4} objectFit={"cover"} src={"./images/SSVLogo.svg"} alt={"SSV Logo"} />
+                        {buttonLabels && <Text pr={1}>ssv.network</Text>}
+                    </HStack>
+                </Button>
+            </Link>
             <Link href={"https://discord.gg/ssvnetworkofficial"} target="_blank">
                 <Button variant={"HeaderButton"} aria-label={"Join SSV Discord"} borderRadius={"full"} p={2}>
                     <HStack gap={3}>
                         <FontAwesomeIcon icon={faDiscord} size={"xl"} />
-                        {displayZone == "drawer" && <Text pr={1}>SSV Discord</Text>}
+                        {buttonLabels && <Text pr={1}>SSV Discord</Text>}
                     </HStack>
                 </Button>
             </Link>
@@ -43,7 +48,7 @@ function HeaderButtons({ displayZone }) {
                 <Button variant={"HeaderButton"} aria-label={"View GitHub Source"} borderRadius={"full"} p={2}>
                     <HStack gap={3}>
                         <FontAwesomeIcon icon={faGithub} size={"xl"} />
-                        {displayZone == "drawer" && <Text pr={1}>GitHub Repo</Text>}
+                        {buttonLabels && <Text pr={1}>GitHub Repo</Text>}
                     </HStack>
                 </Button>
             </Link>
@@ -88,13 +93,13 @@ export default function Header({}) {
                 <Box className={"bgPage"}>
                     <HStack h={16} alignItems={"center"} justifyContent={"space-between"}>
                         <HStack spacing={3} alignItems={"center"} cursor={"pointer"} onClick={navigateHome}>
-                            <Image maxW={6} objectFit={"cover"} src={"./images/SSVLogo.svg"} alt={"Project Logo"} />
+                            <Image maxW={6} objectFit={"cover"} src={"./images/SSVLogo.svg"} alt={"SSV Logo"} />
                             <Box pr={2} minW={"fit-content"} fontWeight="extrabold" fontSize="xl" whiteSpace="nowrap" overflow="hidden">
                                 SSV Rewards
                             </Box>
                         </HStack>
                         <HStack display={{ base: "none", sm: "flex" }} spacing={5}>
-                            <HeaderButtons displayZone={"header"} />
+                            <HeaderButtons displayZone={"header"} buttonLabels={true} />
                         </HStack>
                         <Button
                             variant={"HeaderButton"}
@@ -115,7 +120,7 @@ export default function Header({}) {
                     <DrawerCloseButton />
                     <DrawerBody>
                         <VStack spacing={5} alignItems={"start"}>
-                            <HeaderButtons displayZone={"drawer"} />
+                            <HeaderButtons displayZone={"drawer"} buttonLabels={true} />
                         </VStack>
                     </DrawerBody>
                 </DrawerContent>

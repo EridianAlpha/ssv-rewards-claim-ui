@@ -70,7 +70,7 @@ export default function IncentivesMainnetTab({ address }) {
     }
 
     return (
-        <VStack gap={6} width="100%" p={3} textAlign={"center"} fontWeight={"bold"}>
+        <VStack gap={6} width="100%" p={3} textAlign={"center"} fontWeight={"semibold"}>
             <VStack gap={1}>
                 <Text>Latest Results Calculation </Text>
                 <Text color={"gold"} fontSize={"xl"}>
@@ -152,12 +152,13 @@ export default function IncentivesMainnetTab({ address }) {
                     fontSize={"lg"}
                     borderRadius={"full"}
                     whiteSpace={"normal"}
+                    minH={"60px"}
                     h="fit-content"
                     onClick={async () => {
                         openConnectModal()
                     }}
                 >
-                    Connect wallet to claim rewards
+                    Connect a wallet to claim rewards
                 </Button>
             )}
             {!isTransactionConfirmed && (!unclaimedRewards || unclaimedRewards == 0) && (
@@ -185,7 +186,7 @@ export default function IncentivesMainnetTab({ address }) {
                     textDecoration={"underline"}
                     target="_blank"
                 >
-                    directly on Etherscan ↗
+                    on Etherscan ↗
                 </Link>
             </Text>
         </VStack>

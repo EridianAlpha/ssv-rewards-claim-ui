@@ -20,6 +20,10 @@ const rainbowAnimation = keyframes`
 `
 
 const customTheme = extendTheme({
+    fonts: {
+        heading: `'Poppins', sans-serif`,
+        body: `'Poppins', sans-serif`,
+    },
     styles: {
         global: (props: StyleFunctionProps) => ({
             ".bgPage": {

@@ -22,7 +22,7 @@ export default function RewardsContainer() {
     }, [isConnected, connectedWalletAddress, rewardsAddress])
 
     return (
-        <VStack gap={10} w={"600px"} maxW={"95vw"}>
+        <VStack gap={10} w={"620px"} maxW={"95vw"}>
             {!isConnected && !rewardsAddress && <AddressSelector rewardsAddress={rewardsAddress} setRewardsAddress={setRewardsAddress} />}
             {(connectedWalletAddress || rewardsAddress) && (
                 <CurrentAddressInfo

@@ -103,7 +103,7 @@ export default function SendTransactionButton({
         <>
             <Button
                 w={"100%"}
-                maxW={"450px"}
+                maxW={"480px"}
                 py={4}
                 px={8}
                 variant={
@@ -112,6 +112,7 @@ export default function SendTransactionButton({
                 fontSize={"xl"}
                 borderRadius={"full"}
                 whiteSpace={"normal"}
+                minH={"60px"}
                 h="fit-content"
                 onClick={handleTransaction}
             >

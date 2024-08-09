@@ -48,7 +48,6 @@ export default function AddressInput({ rewardsAddress, setRewardsAddress }) {
             {!rewardsAddress && addressInputValue && (
                 <Button
                     variant={!isRewardsAddressError ? "ShowResultsButton" : "ShowResultsButtonError"}
-                    fontWeight={"bold"}
                     borderBottomRadius={"20px"}
                     borderTopRadius={"0px"}
                     maxW={"480px"}

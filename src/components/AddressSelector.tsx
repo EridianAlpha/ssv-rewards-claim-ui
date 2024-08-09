@@ -17,7 +17,6 @@ export default function AddressSelector({ rewardsAddress, setRewardsAddress }) {
                 py={6}
                 variant={"ConnectWalletButton"}
                 fontSize={"lg"}
-                fontWeight={"bold"}
                 borderRadius={"full"}
                 maxW={"95vw"}
                 onClick={() => {
@@ -30,7 +29,7 @@ export default function AddressSelector({ rewardsAddress, setRewardsAddress }) {
                 OR
             </Text>
             <VStack gap={5} w={"100%"}>
-                <Text textAlign={"center"} maxW={"90vw"} fontWeight={"bold"}>
+                <Text textAlign={"center"} maxW={"90vw"} fontWeight={"semibold"}>
                     Enter an Ethereum address to view your rewards
                 </Text>
                 <AddressInput rewardsAddress={rewardsAddress} setRewardsAddress={setRewardsAddress} />
