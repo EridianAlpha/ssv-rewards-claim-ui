@@ -5,6 +5,7 @@ export default function Document() {
     return (
         <Html lang="en">
             <Head>
+                <title>SSV Rewards</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <body>
