@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 
-import { HStack, Text, Spinner, Button } from "@chakra-ui/react"
+import { HStack, Text, Spinner, Button, Link } from "@chakra-ui/react"
+import NextLink from "next/link"
 
 import { abi } from "public/data/CumulativeMerkleDropAbi"
 
@@ -9,7 +10,14 @@ import { useWriteContract, useWaitForTransactionReceipt } from "wagmi"
 
 import { http, createConfig } from "@wagmi/core"
 
-export default function SendTransactionButton({ rewardsType, connectedWalletAddress, merkleProofRoot, merkleProofEntry, setIsTransactionConfirmed }) {
+export default function SendTransactionButton({
+    rewardsType,
+    connectedWalletAddress,
+    merkleProofRoot,
+    merkleProofEntry,
+    setIsTransactionConfirmed,
+    setTransactionHash,
+}) {
     const [cumulativeMerkleDropAddress, setCumulativeMerkleDropAddress] = useState("")
     const [transactionState, setTransactionState] = useState({
         isWaitingForSignature: false,
@@ -78,6 +86,7 @@ export default function SendTransactionButton({ rewardsType, connectedWalletAddr
         if (isConfirming) {
             console.log("Transaction is confirming...")
             setTransactionState({ ...transactionState, error: null, hash: hash, isWaitingForSignature: false, isConfirming: true })
+            setTransactionHash(hash)
         }
         if (isConfirmed) {
             console.log("Transaction confirmed.")
@@ -120,6 +129,20 @@ export default function SendTransactionButton({ rewardsType, connectedWalletAddr
                     "Claim Rewards"
                 )}
             </Button>
+            {transactionState.hash && (
+                <Text>
+                    View transaction{" "}
+                    <Link
+                        as={NextLink}
+                        href={`https://etherscan.io/tx/${transactionState.hash}`}
+                        color={"blue"}
+                        textDecoration={"underline"}
+                        target="_blank"
+                    >
+                        on Etherscan ↗
+                    </Link>
+                </Text>
+            )}
             {transactionState.error && <Text color="red">Error: {transactionState.error.split("\n")[0]}</Text>}
         </>
     )

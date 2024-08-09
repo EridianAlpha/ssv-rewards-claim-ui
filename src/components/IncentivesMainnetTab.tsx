@@ -21,6 +21,7 @@ export default function IncentivesMainnetTab({ address }) {
     const [isLoading, setIsLoading] = useState(true)
     const [minimumDelayLoading, setMinimumDelayLoading] = useState(true)
     const [isTransactionConfirmed, setIsTransactionConfirmed] = useState(false)
+    const [transactionHash, setTransactionHash] = useState(null)
 
     const { address: connectedWalletAddress, isConnected } = useAccount()
     const { openConnectModal } = useConnectModal()
@@ -93,6 +94,20 @@ export default function IncentivesMainnetTab({ address }) {
                         <Text>✅</Text>
                     </HStack>
                     <Text>Thank you for being part of the SSV Network</Text>
+                    {transactionHash && (
+                        <Text>
+                            View transaction{" "}
+                            <Link
+                                as={NextLink}
+                                href={`https://etherscan.io/tx/${transactionHash}`}
+                                color={"blue"}
+                                textDecoration={"underline"}
+                                target="_blank"
+                            >
+                                on Etherscan ↗
+                            </Link>
+                        </Text>
+                    )}
                 </VStack>
             )}
 
@@ -103,6 +118,7 @@ export default function IncentivesMainnetTab({ address }) {
                     merkleProofRoot={merkleProof.root}
                     merkleProofEntry={merkleProofEntry}
                     setIsTransactionConfirmed={setIsTransactionConfirmed}
+                    setTransactionHash={setTransactionHash}
                 />
             )}
             {unclaimedRewards > 0 && !isConnected && (
@@ -133,8 +149,8 @@ export default function IncentivesMainnetTab({ address }) {
                 <Text>Total previously claimed rewards</Text>
                 <Text>{formatSSVAmount(previouslyClaimedRewards)} SSV</Text>
             </VStack>
-            <HStack gap={1}>
-                <Text>View and interact with the rewards contract</Text>
+            <Text>
+                View and interact with the rewards contract{" "}
                 <Link
                     as={NextLink}
                     href={"https://etherscan.io/address/0xe16d6138B1D2aD4fD6603ACdb329ad1A6cD26D9f#readContract"}
@@ -144,7 +160,7 @@ export default function IncentivesMainnetTab({ address }) {
                 >
                     directly on Etherscan ↗
                 </Link>
-            </HStack>
+            </Text>
         </VStack>
     )
 }
