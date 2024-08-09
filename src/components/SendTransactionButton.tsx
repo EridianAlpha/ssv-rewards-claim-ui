@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 
-import { HStack, Text, Spinner, Button, Link } from "@chakra-ui/react"
+import { VStack, HStack, Text, Spinner, Button, Link } from "@chakra-ui/react"
 import NextLink from "next/link"
 
 import { abi } from "public/data/CumulativeMerkleDropAbi"
@@ -143,7 +143,12 @@ export default function SendTransactionButton({
                     </Link>
                 </Text>
             )}
-            {transactionState.error && <Text color="red">Error: {transactionState.error.split("\n")[0]}</Text>}
+            {transactionState.error && (
+                <VStack color="red">
+                    <Text>Error: {transactionState.error.split("\n")[0]}</Text>
+                    <Text>{transactionState.error.split("\n")[1]}</Text>
+                </VStack>
+            )}
         </>
     )
 }

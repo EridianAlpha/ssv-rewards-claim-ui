@@ -1,6 +1,6 @@
-import { useEffect } from "react"
+import { useState, useEffect } from "react"
 
-export default function useFetchLatestFile(
+export default function useFetchPreviouslyClaimedRewards(
     type,
     address,
     merkleProof,
@@ -9,6 +9,8 @@ export default function useFetchLatestFile(
     setIsLoading,
     isTransactionConfirmed
 ) {
+    const [fetchResult, setFetchResult] = useState(null)
+
     useEffect(() => {
         let addressFoundInMerkleProof = false
 
@@ -16,23 +18,45 @@ export default function useFetchLatestFile(
         setIsLoading(true)
         setMerkleProofEntry(null)
         setPreviouslyClaimedRewards(null)
+        setFetchResult(null)
 
         if (address && merkleProof) {
             const fetchRequests = merkleProof.data.map(async (entry) => {
-                if (entry.address == address) {
-                    setMerkleProofEntry(entry)
-                    const fetchPreviouslyClaimedRewardsResponse = await fetch(`/api/fetchPreviouslyClaimedRewards/?type=${type}&address=${address}`)
-                    const responseJson = await fetchPreviouslyClaimedRewardsResponse.json()
-                    setPreviouslyClaimedRewards(responseJson.cumulativeClaimed)
-                    addressFoundInMerkleProof = true
+                if (entry.address === address) {
+                    try {
+                        setMerkleProofEntry(entry)
+                        const fetchPreviouslyClaimedRewardsResponse = await fetch(
+                            `/api/fetchPreviouslyClaimedRewards/?type=${type}&address=${address}`
+                        )
+                        if (!fetchPreviouslyClaimedRewardsResponse.ok) {
+                            throw new Error(`Error: ${fetchPreviouslyClaimedRewardsResponse.statusText}`)
+                        }
+
+                        const responseJson = await fetchPreviouslyClaimedRewardsResponse.json()
+                        setPreviouslyClaimedRewards(responseJson.cumulativeClaimed)
+                        addressFoundInMerkleProof = true
+                        setFetchResult({ success: true, data: responseJson })
+                    } catch (error) {
+                        console.error("Error fetching previously claimed rewards:", error)
+                        setFetchResult({ success: false, error: error.message })
+                        setIsLoading(false)
+                    }
                 }
             })
 
-            Promise.all(fetchRequests).then(() => {
-                setIsLoading(false)
-            })
+            Promise.all(fetchRequests)
+                .then(() => {
+                    setIsLoading(false)
+                })
+                .catch((error) => {
+                    console.error("Error processing fetch requests:", error)
+                    setFetchResult({ success: false, error: error.message })
+                    setIsLoading(false)
+                })
         } else {
             setIsLoading(false)
         }
     }, [address, merkleProof, setMerkleProofEntry, setPreviouslyClaimedRewards, setIsLoading, type, isTransactionConfirmed])
+
+    return fetchResult
 }

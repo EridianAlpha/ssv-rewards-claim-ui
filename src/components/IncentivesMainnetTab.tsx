@@ -30,7 +30,7 @@ export default function IncentivesMainnetTab({ address }) {
     useFetchLatestFile(setMerkleProof, setMerkleProofDate, rewardsType)
 
     // UseEffect - When `address` has a value, check to see if it is in the Merkle Proof and get previously claimed rewards
-    useFetchPreviouslyClaimedRewards(
+    const fetchPreviouslyClaimedRewardsResult = useFetchPreviouslyClaimedRewards(
         rewardsType,
         address,
         merkleProof,
@@ -79,12 +79,33 @@ export default function IncentivesMainnetTab({ address }) {
             </VStack>
             {!isTransactionConfirmed ? (
                 <VStack gap={1}>
-                    <Text fontSize={"2xl"}>Unclaimed Rewards</Text>
+                    <VStack gap={0}>
+                        <Text fontSize={"2xl"}>{fetchPreviouslyClaimedRewardsResult?.success ? "Unclaimed" : "Total"} Rewards</Text>
+                        {fetchPreviouslyClaimedRewardsResult && !fetchPreviouslyClaimedRewardsResult.success && (
+                            <Text>(Including any previously claimed)</Text>
+                        )}
+                    </VStack>
                     <HStack gap={6} fontSize={"3xl"} color={unclaimedRewards > 0 ? "green" : "none"}>
                         <Text>{unclaimedRewards > 0 ? "🥳" : "😔"}</Text>
                         <Text>{formatSSVAmount(unclaimedRewards)} SSV</Text>
                         <Text>{unclaimedRewards > 0 ? "🥳" : "😔"}</Text>
                     </HStack>
+                    {fetchPreviouslyClaimedRewardsResult && !fetchPreviouslyClaimedRewardsResult.success && (
+                        <VStack gap={3}>
+                            <Text>
+                                The network could not be contacted to calculate how many rewards you have previously claimed. If you have previously
+                                claimed any rewards then the number shown above is also including those claimed rewards.
+                            </Text>
+                            <Text>
+                                You can still use this page to claim your unclaimed rewards as the calculation is performed directly on the smart
+                                contract.
+                            </Text>
+                            <Text>
+                                If you have already claimed all your available rewards then you will see a message below saying "Nothing to claim"
+                                when you click the "Claim Rewards" button.
+                            </Text>
+                        </VStack>
+                    )}
                 </VStack>
             ) : (
                 <VStack pb={3}>
@@ -145,10 +166,16 @@ export default function IncentivesMainnetTab({ address }) {
                     <Text>Try checking again when the results have been updated.</Text>
                 </VStack>
             )}
-            <VStack>
-                <Text>Total previously claimed rewards</Text>
-                <Text>{formatSSVAmount(previouslyClaimedRewards)} SSV</Text>
-            </VStack>
+            {merkleProofEntry && (
+                <VStack>
+                    <Text>Total previously claimed rewards</Text>
+                    {fetchPreviouslyClaimedRewardsResult?.success ? (
+                        <Text>{formatSSVAmount(previouslyClaimedRewards)} SSV</Text>
+                    ) : (
+                        <Text color={"red"}>Unable to fetch previously claimed rewards</Text>
+                    )}
+                </VStack>
+            )}
             <Text>
                 View and interact with the rewards contract{" "}
                 <Link
