@@ -35,7 +35,7 @@ export default function SendTransactionButton({ rewardsType, connectedWalletAddr
     const config = createConfig({
         chains: [mainnet],
         transports: {
-            [mainnet.id]: http(),
+            [mainnet.id]: http(process.env.NEXT_PUBLIC_JSON_RPC),
         },
     })
     // Use the useWaitForTransactionReceipt hook to check the status of the transaction
@@ -97,13 +97,14 @@ export default function SendTransactionButton({ rewardsType, connectedWalletAddr
                 maxW={"450px"}
                 py={4}
                 px={8}
-                variant={"ClaimRewardsButton"}
+                variant={
+                    transactionState.isWaitingForSignature || transactionState.isConfirming ? "ClaimRewardsDisabledButton" : "ClaimRewardsButton"
+                }
                 fontSize={"xl"}
                 borderRadius={"full"}
                 whiteSpace={"normal"}
                 h="fit-content"
                 onClick={handleTransaction}
-                isDisabled={transactionState.isWaitingForSignature || transactionState.isConfirming}
             >
                 {transactionState.isWaitingForSignature ? (
                     <HStack gap={5}>

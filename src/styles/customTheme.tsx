@@ -144,21 +144,25 @@ const customTheme = extendTheme({
                     },
                 }),
                 ClaimRewardsButton: (props: StyleFunctionProps) => ({
-                    filter: "brightness(1.5)",
-                    bg:
-                        props.colorMode === "dark"
-                            ? lightenColor(props.theme.colors.pageBackground.dark, 0.05)
-                            : darkenColor(props.theme.colors.contentBackground.light, 0),
+                    filter: "brightness(1.7)",
                     _hover: {
                         transform: "scale(1.05)",
                     },
                     _active: {
-                        filter: "brightness(1.7)",
+                        filter: "brightness(1.9)",
                     },
                     backgroundImage: "linear-gradient(270deg, pink, purple, blue, red, blue, purple, pink)",
                     backgroundSize: "1000% 1000%",
                     animation: `${rainbowAnimation} 20s linear infinite`,
                     textShadow: "0px 0px 5px black",
+                }),
+                ClaimRewardsDisabledButton: (props: StyleFunctionProps) => ({
+                    backgroundImage: "linear-gradient(270deg, pink, purple, blue, red, blue, purple, pink)",
+                    backgroundSize: "1000% 1000%",
+                    animation: `${rainbowAnimation} 20s linear infinite`,
+                    textShadow: "0px 0px 5px black",
+                    cursor: "default",
+                    pointerEvents: "none",
                 }),
                 ShowResultsButton: (props: StyleFunctionProps) => ({
                     border: "3px solid",

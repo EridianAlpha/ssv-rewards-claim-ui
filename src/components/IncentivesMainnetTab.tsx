@@ -86,10 +86,16 @@ export default function IncentivesMainnetTab({ address }) {
                     </HStack>
                 </VStack>
             ) : (
-                <VStack gap={1}>
-                    <Text>Transaction Confirmed!</Text>
+                <VStack pb={3}>
+                    <HStack gap={3} fontSize={"3xl"} color={unclaimedRewards > 0 ? "green" : "none"}>
+                        <Text>✅</Text>
+                        <Text>Rewards successfully claimed!</Text>
+                        <Text>✅</Text>
+                    </HStack>
+                    <Text>Thank you for being part of the SSV Network</Text>
                 </VStack>
             )}
+
             {unclaimedRewards > 0 && isConnected && (
                 <SendTransactionButton
                     rewardsType={rewardsType}
