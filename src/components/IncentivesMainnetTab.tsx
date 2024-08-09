@@ -101,8 +101,8 @@ export default function IncentivesMainnetTab({ address }) {
                                 contract.
                             </Text>
                             <Text>
-                                If you have already claimed all your available rewards then you will see a message below saying "Nothing to claim"
-                                when you click the "Claim Rewards" button.
+                                If you have already claimed all your available rewards then you will see a message below saying &quot;Nothing to
+                                claim&quot; when you click the &quot;Claim Rewards&quot; button.
                             </Text>
                         </VStack>
                     )}
@@ -170,7 +170,7 @@ export default function IncentivesMainnetTab({ address }) {
                 <VStack>
                     <Text>Total previously claimed rewards</Text>
                     {fetchPreviouslyClaimedRewardsResult?.success ? (
-                        <Text>{formatSSVAmount(previouslyClaimedRewards)} SSV</Text>
+                        <Text color={previouslyClaimedRewards > 0 ? "green" : null}>{formatSSVAmount(previouslyClaimedRewards)} SSV</Text>
                     ) : (
                         <Text color={"red"}>Unable to fetch previously claimed rewards</Text>
                     )}

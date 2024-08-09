@@ -72,7 +72,7 @@ export default function SendTransactionButton({
                 },
                 {
                     onSuccess: async () => {
-                        console.log("Transaction sent to network")
+                        console.log("Transaction sent to network.")
                     },
                 }
             )
@@ -83,12 +83,12 @@ export default function SendTransactionButton({
     }
 
     useEffect(() => {
-        if (isConfirming) {
+        if (isConfirming && !transactionState?.isConfirming) {
             console.log("Transaction is confirming...")
             setTransactionState({ ...transactionState, error: null, hash: hash, isWaitingForSignature: false, isConfirming: true })
             setTransactionHash(hash)
         }
-        if (isConfirmed) {
+        if (isConfirmed && !transactionState?.isConfirmed) {
             console.log("Transaction confirmed.")
             setIsTransactionConfirmed(true)
             setTransactionState({ ...transactionState, error: null, isWaitingForSignature: false, isConfirming: false, isConfirmed: true })
@@ -97,7 +97,7 @@ export default function SendTransactionButton({
             console.log("Error:", error)
             setTransactionState({ ...transactionState, error: error.message, isWaitingForSignature: false, isConfirming: false, isConfirmed: false })
         }
-    }, [isConfirming, isConfirmed, error])
+    }, [isConfirming, isConfirmed, error, hash, setIsTransactionConfirmed, setTransactionHash, transactionState])
 
     return (
         <>

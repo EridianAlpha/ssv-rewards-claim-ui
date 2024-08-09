@@ -58,7 +58,7 @@ export default function AddressInput({ rewardsAddress, setRewardsAddress }) {
                     textOverflow="clip"
                     onClick={handleButtonClick}
                 >
-                    {isRewardsAddressError ? "Invalid address - Please use a valid Ethereum address" : "Find rewards"}
+                    {isRewardsAddressError ? "Invalid address - Please use a valid Ethereum address" : "Check rewards"}
                 </Button>
             )}
         </VStack>

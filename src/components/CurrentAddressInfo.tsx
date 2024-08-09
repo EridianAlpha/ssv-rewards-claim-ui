@@ -12,13 +12,6 @@ export default function CurrentAddressInfo({ rewardsAddress, setRewardsAddress, 
     const { address: connectedWalletAddress, isConnected } = useAccount()
     const { disconnect } = useDisconnect()
 
-    // UseEffect - When the user toggles the alternative address checkbox, reset the rewards address
-    useEffect(() => {
-        if (isConnected && !useAlternativeAddress) {
-            setRewardsAddress(null)
-        }
-    }, [useAlternativeAddress])
-
     const WalletButton = ({ buttonText, height }) => {
         return (
             <Button
@@ -72,7 +65,10 @@ export default function CurrentAddressInfo({ rewardsAddress, setRewardsAddress, 
                                 pl={1}
                                 pr={3}
                                 isChecked={useAlternativeAddress}
-                                onChange={() => setUseAlternativeAddress(!useAlternativeAddress)}
+                                onChange={(e) => {
+                                    setUseAlternativeAddress(e.target.checked)
+                                    setRewardsAddress(null)
+                                }}
                             >
                                 <Text>Claim rewards on behalf of a different address</Text>
                             </Checkbox>
