@@ -22,7 +22,7 @@ export default function useFetchPreviouslyClaimedRewards(
 
         if (address && merkleProof) {
             const fetchRequests = merkleProof.data.map(async (entry) => {
-                if (entry.address === address) {
+                if (entry.address.toLowerCase() === address.toLowerCase()) {
                     try {
                         setMerkleProofEntry(entry)
                         const fetchPreviouslyClaimedRewardsResponse = await fetch(

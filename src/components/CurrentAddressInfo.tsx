@@ -80,7 +80,7 @@ export default function CurrentAddressInfo({ rewardsAddress, setRewardsAddress, 
                         {useAlternativeAddress && (
                             <VStack className="bgPage" w={"100%"} borderRadius={"30px"} px={3} py={3}>
                                 <AddressInput rewardsAddress={rewardsAddress} setRewardsAddress={setRewardsAddress} />
-                                {rewardsAddress == connectedWalletAddress && (
+                                {rewardsAddress?.toLowerCase() == connectedWalletAddress?.toLowerCase() && (
                                     <VStack gap={0} color="gold" textAlign={"center"}>
                                         <Text>⚠️ Connected wallet and reward wallet are the same ⚠️</Text>
                                         <Text>Did you mean to use the same wallet twice?</Text>
