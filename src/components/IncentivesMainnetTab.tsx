@@ -181,7 +181,7 @@ export default function IncentivesMainnetTab({ address }) {
                 View and interact with the rewards contract{" "}
                 <Link
                     as={NextLink}
-                    href={"https://etherscan.io/address/0xe16d6138B1D2aD4fD6603ACdb329ad1A6cD26D9f#readContract"}
+                    href={"https://etherscan.io/address/0xe16d6138B1D2aD4fD6603ACdb329ad1A6cD26D9f#code"}
                     color={"blue"}
                     textDecoration={"underline"}
                     target="_blank"
