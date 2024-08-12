@@ -23,7 +23,7 @@ export default function IncentivesMainnetTab({ address }) {
     const [isTransactionConfirmed, setIsTransactionConfirmed] = useState(false)
     const [transactionHash, setTransactionHash] = useState(null)
 
-    const { address: connectedWalletAddress, isConnected } = useAccount()
+    const { isConnected } = useAccount()
     const { openConnectModal } = useConnectModal()
 
     // UseEffect - Fetch the latest Merkle Proof file
@@ -135,7 +135,6 @@ export default function IncentivesMainnetTab({ address }) {
             {unclaimedRewards > 0 && isConnected && (
                 <SendTransactionButton
                     rewardsType={rewardsType}
-                    connectedWalletAddress={connectedWalletAddress}
                     merkleProofRoot={merkleProof.root}
                     merkleProofEntry={merkleProofEntry}
                     setIsTransactionConfirmed={setIsTransactionConfirmed}
