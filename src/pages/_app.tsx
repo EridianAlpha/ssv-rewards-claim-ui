@@ -1,4 +1,5 @@
 import type { AppProps } from "next/app"
+import Head from "next/head"
 import { Analytics } from "@vercel/analytics/react"
 import { useState, useEffect } from "react"
 
@@ -50,6 +51,9 @@ function MyApp({ Component, pageProps }: AppProps) {
             <ColorModeScript initialColorMode="dark" />
             <style>{style}</style>
             <div id="app" className="hideUntilReady">
+                <Head>
+                    <title>SSV Rewards</title>
+                </Head>
                 <Component {...pageProps} />
                 <Analytics />
             </div>
