@@ -10,8 +10,18 @@ import "@rainbow-me/rainbowkit/styles.css"
 
 import { getDefaultConfig, darkTheme, lightTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit"
 import { WagmiProvider } from "wagmi"
-import { mainnet } from "wagmi/chains"
+import { mainnet as wagmiMainnet } from "wagmi/chains"
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
+
+// Set the RPC URL for the mainnet chain
+const mainnet = {
+    ...wagmiMainnet,
+    rpcUrls: {
+        default: {
+            http: [process.env.NEXT_PUBLIC_JSON_RPC],
+        },
+    },
+}
 
 const config = getDefaultConfig({
     appName: "SSV Rewards Claim",

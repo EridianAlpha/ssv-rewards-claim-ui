@@ -4,21 +4,13 @@ import { VStack, HStack, Text, Spinner, Button, Link } from "@chakra-ui/react"
 import NextLink from "next/link"
 
 import { abi } from "public/data/CumulativeMerkleDropAbi"
+import { contracts } from "public/data/contracts"
 
 import { mainnet } from "wagmi/chains"
-import { useWriteContract, useWaitForTransactionReceipt } from "wagmi"
-
+import { useAccount, useWriteContract, useWaitForTransactionReceipt } from "wagmi"
 import { http, createConfig } from "@wagmi/core"
 
-export default function SendTransactionButton({
-    rewardsType,
-    connectedWalletAddress,
-    merkleProofRoot,
-    merkleProofEntry,
-    setIsTransactionConfirmed,
-    setTransactionHash,
-}) {
-    const [cumulativeMerkleDropAddress, setCumulativeMerkleDropAddress] = useState("")
+export default function SendTransactionButton({ rewardsType, merkleProofRoot, merkleProofEntry, setIsTransactionConfirmed, setTransactionHash }) {
     const [transactionState, setTransactionState] = useState({
         isWaitingForSignature: false,
         isConfirming: false,
@@ -27,17 +19,11 @@ export default function SendTransactionButton({
         error: null,
     })
 
+    const { address: connectedWalletAddress } = useAccount()
     const { data: hash, error, writeContract } = useWriteContract()
 
-    // UseEffect - Fetch the Merkle drop address based on the rewards type
-    useEffect(() => {
-        const fetchAddress = async () => {
-            const response = await fetch(`/data/${rewardsType}/CumulativeMerkleDropAddress`)
-            const address = await response.text()
-            setCumulativeMerkleDropAddress(address)
-        }
-        fetchAddress()
-    }, [rewardsType])
+    // Create the contract instance
+    const cumulativeMerkleDropAddress = contracts.cumulativeMerkleDrop[rewardsType]
 
     // Create a config object for the transaction
     const config = createConfig({

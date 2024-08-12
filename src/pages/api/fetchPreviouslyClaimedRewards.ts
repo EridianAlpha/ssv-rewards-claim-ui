@@ -5,7 +5,7 @@ export default async function handler(req, res) {
     try {
         const { type, address } = req.query
 
-        const provider = new ethers.JsonRpcProvider(process.env.JSON_RPC_URL)
+        const provider = new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_JSON_RPC)
 
         const cumulativeMerkleDropAddress = contracts.cumulativeMerkleDrop[type]
 

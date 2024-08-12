@@ -21,7 +21,6 @@ All of the values used (contract addresses, Merkle proofs, etc.) can be found in
 Create a `.env` file in the root of the project based on the `.env.example` file:
 
 ```bash
-JSON_RPC_URL=...
 NEXT_PUBLIC_JSON_RPC=...
 ```
 
