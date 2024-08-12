@@ -10,7 +10,7 @@ import { useConnectModal } from "@rainbow-me/rainbowkit"
 
 import SendTransactionButton from "./SendTransactionButton"
 
-export default function IncentivesMainnetTab({ address }) {
+export default function IncentivesMainnetTab({ address, customRpc }) {
     const rewardsType = "mainnetIncentives"
 
     const [merkleProof, setMerkleProof] = useState(null)
@@ -37,7 +37,8 @@ export default function IncentivesMainnetTab({ address }) {
         setMerkleProofEntry,
         setPreviouslyClaimedRewards,
         setIsLoading,
-        isTransactionConfirmed
+        isTransactionConfirmed,
+        customRpc
     )
 
     // UseEffect - Calculate the unclaimed rewards
@@ -139,6 +140,7 @@ export default function IncentivesMainnetTab({ address }) {
                     merkleProofEntry={merkleProofEntry}
                     setIsTransactionConfirmed={setIsTransactionConfirmed}
                     setTransactionHash={setTransactionHash}
+                    customRpc={customRpc}
                 />
             )}
             {unclaimedRewards > 0 && !isConnected && (

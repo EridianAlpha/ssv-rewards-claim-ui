@@ -7,7 +7,8 @@ export default function useFetchPreviouslyClaimedRewards(
     setMerkleProofEntry,
     setPreviouslyClaimedRewards,
     setIsLoading,
-    isTransactionConfirmed
+    isTransactionConfirmed,
+    customRpc
 ) {
     const [fetchResult, setFetchResult] = useState(null)
 
@@ -26,7 +27,7 @@ export default function useFetchPreviouslyClaimedRewards(
                     try {
                         setMerkleProofEntry(entry)
                         const fetchPreviouslyClaimedRewardsResponse = await fetch(
-                            `/api/fetchPreviouslyClaimedRewards/?type=${type}&address=${address}`
+                            `/api/fetchPreviouslyClaimedRewards/?type=${type}&address=${address}&customRpc=${customRpc}`
                         )
                         if (!fetchPreviouslyClaimedRewardsResponse.ok) {
                             throw new Error(`Error: ${fetchPreviouslyClaimedRewardsResponse.statusText}`)
@@ -56,7 +57,7 @@ export default function useFetchPreviouslyClaimedRewards(
         } else {
             setIsLoading(false)
         }
-    }, [address, merkleProof, setMerkleProofEntry, setPreviouslyClaimedRewards, setIsLoading, type, isTransactionConfirmed])
+    }, [address, merkleProof, setMerkleProofEntry, setPreviouslyClaimedRewards, setIsLoading, type, isTransactionConfirmed, customRpc])
 
     return fetchResult
 }

@@ -10,6 +10,7 @@ import { useAccount } from "wagmi"
 export default function RewardsContainer() {
     const [rewardsAddress, setRewardsAddress] = useState(null)
     const [useAlternativeAddress, setUseAlternativeAddress] = useState(false)
+    const [customRpc, setCustomRpc] = useState("")
 
     const { address: connectedWalletAddress, isConnected } = useAccount()
 
@@ -30,10 +31,12 @@ export default function RewardsContainer() {
                     setRewardsAddress={setRewardsAddress}
                     useAlternativeAddress={useAlternativeAddress}
                     setUseAlternativeAddress={setUseAlternativeAddress}
+                    customRpc={customRpc}
+                    setCustomRpc={setCustomRpc}
                 />
             )}
             {(rewardsAddress || (connectedWalletAddress && !useAlternativeAddress)) && (
-                <RewardProgramTabs address={rewardsAddress || connectedWalletAddress} />
+                <RewardProgramTabs address={rewardsAddress || connectedWalletAddress} customRpc={customRpc} />
             )}
         </VStack>
     )

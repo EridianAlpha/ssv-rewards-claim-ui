@@ -10,7 +10,14 @@ import { mainnet } from "wagmi/chains"
 import { useAccount, useWriteContract, useWaitForTransactionReceipt } from "wagmi"
 import { http, createConfig } from "@wagmi/core"
 
-export default function SendTransactionButton({ rewardsType, merkleProofRoot, merkleProofEntry, setIsTransactionConfirmed, setTransactionHash }) {
+export default function SendTransactionButton({
+    rewardsType,
+    merkleProofRoot,
+    merkleProofEntry,
+    setIsTransactionConfirmed,
+    setTransactionHash,
+    customRpc,
+}) {
     const [transactionState, setTransactionState] = useState({
         isWaitingForSignature: false,
         isConfirming: false,
@@ -29,7 +36,7 @@ export default function SendTransactionButton({ rewardsType, merkleProofRoot, me
     const config = createConfig({
         chains: [mainnet],
         transports: {
-            [mainnet.id]: http(process.env.NEXT_PUBLIC_JSON_RPC),
+            [mainnet.id]: http(customRpc || process.env.NEXT_PUBLIC_JSON_RPC),
         },
     })
     // Use the useWaitForTransactionReceipt hook to check the status of the transaction
