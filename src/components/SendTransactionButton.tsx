@@ -93,7 +93,7 @@ export default function SendTransactionButton({
             setIsTransactionConfirmed(true)
             setTransactionState({ ...transactionState, error: null, isWaitingForSignature: false, isConfirming: false, isConfirmed: true })
         }
-        if (error) {
+        if (error && !transactionState?.error) {
             console.log("Error:", error)
             setTransactionState({ ...transactionState, error: error.message, isWaitingForSignature: false, isConfirming: false, isConfirmed: false })
         }
