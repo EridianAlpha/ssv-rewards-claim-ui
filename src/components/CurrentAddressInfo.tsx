@@ -66,17 +66,15 @@ export default function CurrentAddressInfo({
                         >
                             {!isConnected ? "Viewing read-only rewards for address" : "Connected wallet"}
                         </Text>
-                        {isConnected && (
-                            <Box color={useCustomRpc ? "orange" : "null"}>
-                                <FontAwesomeIcon
-                                    cursor={"pointer"}
-                                    icon={faCog}
-                                    onClick={() => {
-                                        setUseCustomRpc(!useCustomRpc)
-                                    }}
-                                />
-                            </Box>
-                        )}
+                        <Box color={useCustomRpc ? "orange" : "null"} pb={"1px"}>
+                            <FontAwesomeIcon
+                                cursor={"pointer"}
+                                icon={faCog}
+                                onClick={() => {
+                                    setUseCustomRpc(!useCustomRpc)
+                                }}
+                            />
+                        </Box>
                     </HStack>
                     {isConnected && <WalletButton buttonText={"Disconnect"} height={8} />}
                 </HStack>
