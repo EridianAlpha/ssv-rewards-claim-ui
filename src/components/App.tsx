@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import Header from "./Header"
 import Footer from "./Footer"
 
-import { Box, Flex, Text, Image, Button, useColorModeValue } from "@chakra-ui/react"
+import { Box, Flex, useColorModeValue } from "@chakra-ui/react"
 
 import RewardsContainer from "./RewardsContainer"
 
@@ -13,20 +13,19 @@ import { WagmiProvider } from "wagmi"
 import { mainnet as wagmiMainnet } from "wagmi/chains"
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 
-// Set the RPC URL for the mainnet chain
-const mainnet = {
-    ...wagmiMainnet,
-    rpcUrls: {
-        default: {
-            http: [process.env.NEXT_PUBLIC_JSON_RPC],
-        },
-    },
-}
-
 const config = getDefaultConfig({
     appName: "SSV Rewards Claim",
     projectId: "87f79383c4e3bdba4a2117cdc8393a12",
-    chains: [mainnet],
+    chains: [
+        {
+            ...wagmiMainnet,
+            rpcUrls: {
+                default: {
+                    http: [process.env.NEXT_PUBLIC_JSON_RPC], // Set the default rpcUrl for mainnet
+                },
+            },
+        },
+    ],
     ssr: true,
 })
 
