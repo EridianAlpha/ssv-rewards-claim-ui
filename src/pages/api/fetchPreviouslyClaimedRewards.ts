@@ -1,29 +1,17 @@
-import { ethers } from "ethers"
-import { contracts } from "public/data/contracts"
+import { fetchCumulativeClaimed } from "src/utils/fetchCumulativeClaimed"
 
 export default async function handler(req, res) {
     try {
         const { type, address, customRpc } = req.query
-
         const rpcUrl = customRpc || process.env.NEXT_PUBLIC_JSON_RPC
-        const provider = new ethers.JsonRpcProvider(rpcUrl)
 
-        // Validate the provider by attempting to get the network
         try {
-            await provider.getNetwork()
-        } catch (networkError) {
-            console.error("Invalid RPC URL:", rpcUrl)
-            return res.status(400).json({ error: "Invalid RPC URL or the node is not available." })
+            const cumulativeClaimed = await fetchCumulativeClaimed(type, address, rpcUrl)
+            return res.status(200).json({ cumulativeClaimed })
+        } catch (error) {
+            console.error("Error in handler:", error)
+            return res.status(400).json({ error: error.message })
         }
-
-        const cumulativeMerkleDropAddress = contracts.cumulativeMerkleDrop[type]
-
-        const cumulativeMerkleDropAbi = ["function cumulativeClaimed(address) view returns (uint256)"]
-        const cumulativeMerkleDropContract = new ethers.Contract(cumulativeMerkleDropAddress.toString(), cumulativeMerkleDropAbi, provider)
-
-        const cumulativeClaimed = await cumulativeMerkleDropContract.cumulativeClaimed(address)
-
-        return res.status(200).json({ cumulativeClaimed: cumulativeClaimed.toString() })
     } catch (error) {
         console.error("Error in handler:", error)
         return res.status(500).json({ error: "Failed to fetch cumulative claimed rewards. Please try again later." })

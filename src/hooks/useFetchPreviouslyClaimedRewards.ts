@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react"
-import { ethers } from "ethers"
-import { contracts } from "public/data/contracts"
+import { useEffect, useState } from "react"
+import { fetchCumulativeClaimed } from "src/utils/fetchCumulativeClaimed"
 
 export default function useFetchPreviouslyClaimedRewards(
     type,
@@ -29,32 +28,17 @@ export default function useFetchPreviouslyClaimedRewards(
                     try {
                         setMerkleProofEntry(entry)
                         addressFoundInMerkleProof = true
-                        // If a customRpc is provided, use it to fetch the cumulative claimed rewards
+
                         if (customRpc) {
-                            const provider = new ethers.JsonRpcProvider(customRpc)
-
-                            // Validate the provider by attempting to get the network
                             try {
-                                await provider.getNetwork()
-                            } catch (networkError) {
-                                console.error("Invalid RPC URL:", customRpc)
-                                return setFetchResult({ success: false, error: "Invalid RPC URL or the node is not available." })
+                                const cumulativeClaimed = await fetchCumulativeClaimed(type, address, customRpc)
+                                setPreviouslyClaimedRewards(cumulativeClaimed)
+                                setFetchResult({ success: true, data: { cumulativeClaimed } })
+                            } catch (error) {
+                                console.error("Error fetching previously claimed rewards:", error)
+                                setFetchResult({ success: false, error: error.message })
                             }
-
-                            const cumulativeMerkleDropAddress = contracts.cumulativeMerkleDrop[type]
-
-                            const cumulativeMerkleDropAbi = ["function cumulativeClaimed(address) view returns (uint256)"]
-                            const cumulativeMerkleDropContract = new ethers.Contract(
-                                cumulativeMerkleDropAddress.toString(),
-                                cumulativeMerkleDropAbi,
-                                provider
-                            )
-
-                            const cumulativeClaimed = await cumulativeMerkleDropContract.cumulativeClaimed(address)
-                            setPreviouslyClaimedRewards(cumulativeClaimed.toString())
-                            setFetchResult({ success: true, data: { cumulativeClaimed: cumulativeClaimed.toString() } })
                         } else {
-                            // Used when there is no custom RPC provided (e.g. when viewing a read-only address)
                             const fetchPreviouslyClaimedRewardsResponse = await fetch(
                                 `/api/fetchPreviouslyClaimedRewards/?type=${type}&address=${address}`
                             )
