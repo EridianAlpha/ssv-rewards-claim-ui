@@ -42,6 +42,10 @@ const customTheme = extendTheme({
                         : darkenColor(props.theme.colors.contentBackground.light, 0),
                 border: "4px solid green",
             },
+            ".pageWidth": {
+                maxWidth: "95vw",
+                width: "620px",
+            },
         }),
     },
     components: {
@@ -199,6 +203,7 @@ const customTheme = extendTheme({
                 ShowResultsButtonError: (props: StyleFunctionProps) => ({
                     border: "3px solid",
                     borderColor: "red",
+                    fontSize: "sm",
                     bg:
                         props.colorMode === "dark"
                             ? lightenColor(props.theme.colors.pageBackground.dark, 0.05)

@@ -7,10 +7,9 @@ import CurrentAddressInfo from "./CurrentAddressInfo"
 
 import { useAccount } from "wagmi"
 
-export default function RewardsContainer() {
+export default function RewardsContainer({ customRpc }) {
     const [rewardsAddress, setRewardsAddress] = useState(null)
     const [useAlternativeAddress, setUseAlternativeAddress] = useState(false)
-    const [customRpc, setCustomRpc] = useState("")
 
     const { address: connectedWalletAddress, isConnected } = useAccount()
 
@@ -23,7 +22,7 @@ export default function RewardsContainer() {
     }, [isConnected, connectedWalletAddress, rewardsAddress])
 
     return (
-        <VStack gap={10} w={"620px"} maxW={"95vw"}>
+        <VStack gap={10} className={"pageWidth"}>
             {!isConnected && !rewardsAddress && <AddressSelector rewardsAddress={rewardsAddress} setRewardsAddress={setRewardsAddress} />}
             {(connectedWalletAddress || rewardsAddress) && (
                 <CurrentAddressInfo
@@ -31,8 +30,6 @@ export default function RewardsContainer() {
                     setRewardsAddress={setRewardsAddress}
                     useAlternativeAddress={useAlternativeAddress}
                     setUseAlternativeAddress={setUseAlternativeAddress}
-                    customRpc={customRpc}
-                    setCustomRpc={setCustomRpc}
                 />
             )}
             {(rewardsAddress || (connectedWalletAddress && !useAlternativeAddress)) && (

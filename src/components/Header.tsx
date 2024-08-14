@@ -15,10 +15,10 @@ import {
 } from "@chakra-ui/react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faDiscord, faGithub } from "@fortawesome/free-brands-svg-icons"
-import { faSun, faMoon, faBars } from "@fortawesome/free-solid-svg-icons"
+import { faSun, faMoon, faBars, faSatelliteDish } from "@fortawesome/free-solid-svg-icons"
 import Link from "next/link"
 
-function HeaderButtons({ displayZone, buttonLabels }) {
+function HeaderButtons({ displayZone, buttonLabels, useCustomRpc, setUseCustomRpc }) {
     const { colorMode, toggleColorMode } = useColorMode()
 
     return (
@@ -61,6 +61,22 @@ function HeaderButtons({ displayZone, buttonLabels }) {
             <Button
                 variant={"HeaderButton"}
                 px={2}
+                aria-label="Use a custom RPC"
+                onClick={() => {
+                    setUseCustomRpc(!useCustomRpc)
+                }}
+                borderRadius={"full"}
+            >
+                <HStack gap={3}>
+                    <Box color={useCustomRpc ? "orange" : null}>
+                        <FontAwesomeIcon icon={faSatelliteDish} size={"xl"} />
+                    </Box>
+                    {displayZone == "drawer" && <Text pr={1}>Use a custom RPC</Text>}
+                </HStack>
+            </Button>
+            <Button
+                variant={"HeaderButton"}
+                px={2}
                 aria-label="Toggle Color Mode"
                 onClick={() => {
                     toggleColorMode()
@@ -76,7 +92,7 @@ function HeaderButtons({ displayZone, buttonLabels }) {
     )
 }
 
-export default function Header({}) {
+export default function Header({ useCustomRpc, setUseCustomRpc }) {
     const isSSR = typeof window === "undefined"
     const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -98,13 +114,13 @@ export default function Header({}) {
                                 SSV Rewards
                             </Box>
                         </HStack>
-                        <HStack display={{ base: "none", sm: "flex" }} spacing={5}>
-                            <HeaderButtons displayZone={"header"} buttonLabels={true} />
+                        <HStack display={{ base: "none", lg: "flex" }} spacing={5}>
+                            <HeaderButtons displayZone={"header"} buttonLabels={true} useCustomRpc={useCustomRpc} setUseCustomRpc={setUseCustomRpc} />
                         </HStack>
                         <Button
                             variant={"HeaderButton"}
                             aria-label="Open Menu"
-                            display={{ base: "flex", sm: "none" }}
+                            display={{ base: "flex", lg: "none" }}
                             onClick={onOpen}
                             borderRadius={"full"}
                             p={0}
@@ -120,7 +136,7 @@ export default function Header({}) {
                     <DrawerCloseButton />
                     <DrawerBody>
                         <VStack spacing={5} alignItems={"start"}>
-                            <HeaderButtons displayZone={"drawer"} buttonLabels={true} />
+                            <HeaderButtons displayZone={"drawer"} buttonLabels={true} useCustomRpc={useCustomRpc} setUseCustomRpc={setUseCustomRpc} />
                         </VStack>
                     </DrawerBody>
                 </DrawerContent>
