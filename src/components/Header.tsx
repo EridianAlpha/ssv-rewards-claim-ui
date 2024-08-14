@@ -12,6 +12,7 @@ import {
     DrawerContent,
     DrawerCloseButton,
     useColorMode,
+    Tooltip,
 } from "@chakra-ui/react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faDiscord, faGithub } from "@fortawesome/free-brands-svg-icons"
@@ -20,6 +21,29 @@ import Link from "next/link"
 
 function HeaderButtons({ displayZone, buttonLabels, useCustomRpc, setUseCustomRpc }) {
     const { colorMode, toggleColorMode } = useColorMode()
+
+    const CustomButtonTooltip = ({ labelText, children }) => {
+        return (
+            <Tooltip
+                className="tooltip"
+                closeOnClick={false}
+                gutter={8}
+                label={
+                    <VStack className="tooltipLabel">
+                        <Text fontWeight={"bold"}>{labelText}</Text>
+                    </VStack>
+                }
+                placement={"bottom"}
+                borderRadius={"full"}
+                hasArrow={true}
+                closeDelay={0}
+                openDelay={0}
+                isDisabled={displayZone === "drawer"}
+            >
+                {children}
+            </Tooltip>
+        )
+    }
 
     return (
         <>
@@ -58,36 +82,32 @@ function HeaderButtons({ displayZone, buttonLabels, useCustomRpc, setUseCustomRp
                     Settings
                 </Text>
             )}
-            <Button
-                variant={"HeaderButton"}
-                px={2}
-                aria-label="Use a custom RPC"
-                onClick={() => {
-                    setUseCustomRpc(!useCustomRpc)
-                }}
-                borderRadius={"full"}
-            >
-                <HStack gap={3}>
-                    <Box color={useCustomRpc ? "orange" : null}>
-                        <FontAwesomeIcon icon={faSatelliteDish} size={"xl"} />
-                    </Box>
-                    {displayZone == "drawer" && <Text pr={1}>Use a custom RPC</Text>}
-                </HStack>
-            </Button>
-            <Button
-                variant={"HeaderButton"}
-                px={2}
-                aria-label="Toggle Color Mode"
-                onClick={() => {
-                    toggleColorMode()
-                }}
-                borderRadius={"full"}
-            >
-                <HStack gap={3}>
-                    {colorMode === "light" ? <FontAwesomeIcon icon={faMoon} size={"xl"} /> : <FontAwesomeIcon icon={faSun} size={"xl"} />}
-                    {displayZone == "drawer" && <Text pr={1}>Toggle color mode</Text>}
-                </HStack>
-            </Button>
+            <CustomButtonTooltip labelText="Use a custom RPC">
+                <Button
+                    variant={"HeaderButton"}
+                    px={2}
+                    aria-label="Use a custom RPC"
+                    onClick={() => {
+                        setUseCustomRpc(!useCustomRpc)
+                    }}
+                    borderRadius={"full"}
+                >
+                    <HStack gap={3}>
+                        <Box color={useCustomRpc ? "orange" : null}>
+                            <FontAwesomeIcon icon={faSatelliteDish} size={"xl"} />
+                        </Box>
+                        {displayZone == "drawer" && <Text pr={1}>Use a custom RPC</Text>}
+                    </HStack>
+                </Button>
+            </CustomButtonTooltip>
+            <CustomButtonTooltip labelText="Toggle color theme">
+                <Button variant={"HeaderButton"} px={2} aria-label="Toggle color theme" onClick={toggleColorMode} borderRadius={"full"}>
+                    <HStack gap={3}>
+                        {colorMode == "light" ? <FontAwesomeIcon icon={faMoon} size={"xl"} /> : <FontAwesomeIcon icon={faSun} size={"xl"} />}
+                        {displayZone == "drawer" && <Text pr={1}>Toggle color theme</Text>}
+                    </HStack>
+                </Button>
+            </CustomButtonTooltip>
         </>
     )
 }
