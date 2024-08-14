@@ -1,13 +1,13 @@
 import { VStack, HStack, Text, Input, Button, Link } from "@chakra-ui/react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faXmark } from "@fortawesome/free-solid-svg-icons"
+import { faXmark, faUpRightFromSquare } from "@fortawesome/free-solid-svg-icons"
 import NextLink from "next/link"
 
 export default function CustomRpcInput({ setUseCustomRpc, customRpc, setCustomRpc }) {
     const buttonSize = "27px"
 
     return (
-        <VStack className={"pageWidth"} alignItems={"start"} mt={5} px={3} pt={2} pb={3} borderRadius={"20px"} bg={"orange"}>
+        <VStack className={"pageWidth"} alignItems={"start"} gap={3} mt={5} px={3} pt={2} pb={3} borderRadius={"20px"} bg={"orange"}>
             <HStack justifyContent={"space-between"} w={"100%"} px={1}>
                 <Text fontSize={"lg"} fontWeight={"semibold"}>
                     Use a custom RPC (optional)
@@ -40,12 +40,12 @@ export default function CustomRpcInput({ setUseCustomRpc, customRpc, setCustomRp
                     textDecoration={"underline"}
                     target="_blank"
                 >
-                    {process.env.NEXT_PUBLIC_JSON_RPC} ↗
+                    {process.env.NEXT_PUBLIC_JSON_RPC} <FontAwesomeIcon icon={faUpRightFromSquare} size={"sm"} />
                 </Link>{" "}
                 is not working and/or you would prefer to use a different RPC provider to query Ethereum you can enter a custom RPC URL here.
             </Text>
             <Text px={1}>
-                Alternative RPC providers{" "}
+                Alternative RPC providers:{" "}
                 <Link
                     className="bgPage"
                     py={"2px"}
@@ -57,9 +57,8 @@ export default function CustomRpcInput({ setUseCustomRpc, customRpc, setCustomRp
                     textDecoration={"underline"}
                     target="_blank"
                 >
-                    https://ethereumnodes.com ↗
+                    https://ethereumnodes.com <FontAwesomeIcon icon={faUpRightFromSquare} size={"sm"} />
                 </Link>
-                .
             </Text>
             <Input
                 placeholder="e.g. http://localhost:8545"

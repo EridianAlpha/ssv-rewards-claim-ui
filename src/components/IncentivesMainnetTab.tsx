@@ -2,6 +2,9 @@ import { useState, useEffect } from "react"
 import { VStack, HStack, Text, Spinner, Button, Link } from "@chakra-ui/react"
 import NextLink from "next/link"
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faUpRightFromSquare, faSatelliteDish } from "@fortawesome/free-solid-svg-icons"
+
 import useFetchLatestFile from "@/hooks/useFetchLatestFile"
 import useFetchPreviouslyClaimedRewards from "@/hooks/useFetchPreviouslyClaimedRewards"
 
@@ -93,14 +96,7 @@ export default function IncentivesMainnetTab({ address, customRpc }) {
                     </HStack>
                     {fetchPreviouslyClaimedRewardsResult && !fetchPreviouslyClaimedRewardsResult.success && (
                         <VStack gap={3}>
-                            <Text>
-                                The network could not be contacted to calculate how many rewards you have previously claimed. If you have previously
-                                claimed any rewards then the number shown above is also including those claimed rewards.
-                            </Text>
-                            <Text>
-                                You can still use this page to claim your unclaimed rewards as the calculation is performed directly on the smart
-                                contract.
-                            </Text>
+                            <Text>If you have previously claimed any rewards then the number shown above also includes those claimed rewards.</Text>
                             <Text>
                                 If you have already claimed all your available rewards then you will see a message below saying &quot;Nothing to
                                 claim&quot; when you click the &quot;Claim Rewards&quot; button.
@@ -126,7 +122,7 @@ export default function IncentivesMainnetTab({ address, customRpc }) {
                                 textDecoration={"underline"}
                                 target="_blank"
                             >
-                                on Etherscan ↗
+                                on Etherscan <FontAwesomeIcon icon={faUpRightFromSquare} size={"sm"} />
                             </Link>
                         </Text>
                     )}
@@ -176,6 +172,15 @@ export default function IncentivesMainnetTab({ address, customRpc }) {
                     ) : (
                         <Text color={"red"}>Unable to fetch previously claimed rewards</Text>
                     )}
+                    {!fetchPreviouslyClaimedRewardsResult?.success && (
+                        <>
+                            <Text color={"red"}>Failed to connect to the RPC URL:</Text>
+                            <Text color={"red"}>{customRpc || process.env.NEXT_PUBLIC_JSON_RPC}</Text>
+                            <Text>
+                                You can use a different RPC URL by clicking the <FontAwesomeIcon icon={faSatelliteDish} /> icon in the header.
+                            </Text>
+                        </>
+                    )}
                 </VStack>
             )}
             <Text>
@@ -187,7 +192,7 @@ export default function IncentivesMainnetTab({ address, customRpc }) {
                     textDecoration={"underline"}
                     target="_blank"
                 >
-                    on Etherscan ↗
+                    on Etherscan <FontAwesomeIcon icon={faUpRightFromSquare} size={"sm"} />
                 </Link>
             </Text>
         </VStack>

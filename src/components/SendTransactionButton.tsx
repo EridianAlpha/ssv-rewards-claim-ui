@@ -3,6 +3,9 @@ import { useState, useEffect } from "react"
 import { VStack, HStack, Text, Spinner, Button, Link } from "@chakra-ui/react"
 import NextLink from "next/link"
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faUpRightFromSquare } from "@fortawesome/free-solid-svg-icons"
+
 import { abi } from "public/data/CumulativeMerkleDropAbi"
 import { contracts } from "public/data/contracts"
 
@@ -133,7 +136,7 @@ export default function SendTransactionButton({
                         textDecoration={"underline"}
                         target="_blank"
                     >
-                        on Etherscan ↗
+                        on Etherscan <FontAwesomeIcon icon={faUpRightFromSquare} size={"sm"} />
                     </Link>
                 </Text>
             )}
