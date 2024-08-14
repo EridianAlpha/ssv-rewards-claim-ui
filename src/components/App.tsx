@@ -23,8 +23,8 @@ const App = () => {
     // Helper function to create default config
     const createDefaultConfig = (rpcUrl) => {
         return getDefaultConfig({
-            appName: "SSV Rewards Claim",
-            projectId: "87f79383c4e3bdba4a2117cdc8393a12",
+            appName: "SSV Rewards Claim UI",
+            projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_ID,
             chains: [
                 {
                     ...wagmiMainnet,
