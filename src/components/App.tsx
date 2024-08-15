@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { Box, Flex, useColorModeValue } from "@chakra-ui/react"
 
 import Header from "./Header"
@@ -19,15 +19,15 @@ const App = () => {
     const [useCustomRpc, setUseCustomRpc] = useState(false)
     const [customRpc, setCustomRpc] = useState("")
     const [isValidWalletConnectId, setIsValidWalletConnectId] = useState(false)
+    const [wagmiProviderConfig, setWagmiProviderConfig] = useState(null)
 
-    // Helper function to create default config
-    const createDefaultConfig = (rpcUrl) => {
-        // Set default RPC for mainnet
+    // Helper function to create default config, wrapped in useCallback
+    const createWagmiProviderConfig = useCallback(() => {
         const commonChainsConfig = {
             ...wagmiMainnet,
             rpcUrls: {
                 default: {
-                    http: [rpcUrl], // Set the default rpcUrl for mainnet
+                    http: [customRpc || process.env.NEXT_PUBLIC_JSON_RPC],
                 },
             },
         }
@@ -35,39 +35,43 @@ const App = () => {
         const fallbackConfig = createConfig({
             chains: [commonChainsConfig],
             transports: {
-                [wagmiMainnet.id]: http(rpcUrl),
+                [wagmiMainnet.id]: http(customRpc || process.env.NEXT_PUBLIC_JSON_RPC),
             },
         })
 
         if (process.env.NEXT_PUBLIC_WALLETCONNECT_ID) {
-            // If WalletConnect ID exists check if it is valid,
+            // If WalletConnect ID exists check if it is valid
             if (isValidWalletConnectId) {
                 // If it is valid, use the default config with WalletConnect
                 // Note: Can only be created after confirming WalletConnectId
                 // exists and is valid or else it will throw an error
-                return getDefaultConfig({
-                    appName: "SSV Rewards Claim UI",
-                    projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_ID,
-                    chains: [commonChainsConfig],
-                    ssr: true,
-                })
+                setWagmiProviderConfig(
+                    getDefaultConfig({
+                        appName: "SSV Rewards Claim UI",
+                        projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_ID,
+                        chains: [commonChainsConfig],
+                        ssr: true,
+                    })
+                )
             } else {
                 // If it is not valid, use the fallback config
-                return fallbackConfig
+                setWagmiProviderConfig(fallbackConfig)
             }
         } else {
             // If no WalletConnect ID exists, use the fallback config
-            return fallbackConfig
+            setWagmiProviderConfig(fallbackConfig)
         }
-    }
+    }, [customRpc, isValidWalletConnectId])
 
     useEffect(() => {
         if (process.env.NEXT_PUBLIC_WALLETCONNECT_ID) {
             fetch(`https://explorer-api.walletconnect.com/v3/wallets?projectId=${process.env.NEXT_PUBLIC_WALLETCONNECT_ID}`)
                 .then((response) => {
                     if (response.ok) {
-                        console.log("WalletConnect ID is valid")
                         setIsValidWalletConnectId(true)
+                    } else {
+                        console.log("Invalid WalletConnect projectId:", process.env.NEXT_PUBLIC_WALLETCONNECT_ID)
+                        setIsValidWalletConnectId(false)
                     }
                 })
                 .catch((error) => {
@@ -77,17 +81,10 @@ const App = () => {
         }
     }, [])
 
+    // UseEffect - Recreate wagmiProviderConfig when customRpc or isValidWalletConnectId changes
     useEffect(() => {
-        isValidWalletConnectId && setConfig(createDefaultConfig(customRpc || process.env.NEXT_PUBLIC_JSON_RPC))
-    }, [isValidWalletConnectId])
-
-    // Create default rpcUrl config
-    const [config, setConfig] = useState(createDefaultConfig(process.env.NEXT_PUBLIC_JSON_RPC))
-
-    // UseEffect - Update default rpcUrl when customRpc changes
-    useEffect(() => {
-        setConfig(createDefaultConfig(customRpc || process.env.NEXT_PUBLIC_JSON_RPC))
-    }, [customRpc])
+        createWagmiProviderConfig()
+    }, [customRpc, isValidWalletConnectId, createWagmiProviderConfig])
 
     // UseEffect - Reset customRpc when useCustomRpc is false
     useEffect(() => {
@@ -97,27 +94,31 @@ const App = () => {
     // Create queryClient for RainbowKit
     const queryClient = new QueryClient()
 
-    return (
-        <Box minH="100vh" className={"bgPage"} display="flex" flexDirection="column">
-            <Flex direction="column" justifyContent="center" alignItems="center">
-                <Header useCustomRpc={useCustomRpc} setUseCustomRpc={setUseCustomRpc} />
-                {useCustomRpc && <CustomRpcInput setUseCustomRpc={setUseCustomRpc} customRpc={customRpc} setCustomRpc={setCustomRpc} />}
-                <Flex direction={"column"} alignItems={"center"} maxW={"100vw"} px={{ base: "0px", sm: "2vw", xl: "3vw", "2xl": "3vw" }}>
-                    <Box height={"30px"} />
-                    <WagmiProvider config={config}>
-                        <QueryClientProvider client={queryClient}>
-                            <RainbowKitProvider modalSize="compact" theme={colorMode === "dark" ? darkTheme() : lightTheme()}>
-                                <RewardsContainer customRpc={customRpc} />
-                            </RainbowKitProvider>
-                        </QueryClientProvider>
-                    </WagmiProvider>
-                    <Box height={30} />
+    if (!wagmiProviderConfig) {
+        return null
+    } else {
+        return (
+            <Box minH="100vh" className={"bgPage"} display="flex" flexDirection="column">
+                <Flex direction="column" justifyContent="center" alignItems="center">
+                    <Header useCustomRpc={useCustomRpc} setUseCustomRpc={setUseCustomRpc} />
+                    {useCustomRpc && <CustomRpcInput setUseCustomRpc={setUseCustomRpc} customRpc={customRpc} setCustomRpc={setCustomRpc} />}
+                    <Flex direction={"column"} alignItems={"center"} maxW={"100vw"} px={{ base: "0px", sm: "2vw", xl: "3vw", "2xl": "3vw" }}>
+                        <Box height={"30px"} />
+                        <WagmiProvider config={wagmiProviderConfig}>
+                            <QueryClientProvider client={queryClient}>
+                                <RainbowKitProvider modalSize="compact" theme={colorMode === "dark" ? darkTheme() : lightTheme()}>
+                                    <RewardsContainer customRpc={customRpc} />
+                                </RainbowKitProvider>
+                            </QueryClientProvider>
+                        </WagmiProvider>
+                        <Box height={30} />
+                    </Flex>
                 </Flex>
-            </Flex>
-            <Box flex="1" />
-            <Footer />
-        </Box>
-    )
+                <Box flex="1" />
+                <Footer />
+            </Box>
+        )
+    }
 }
 
 export default App
