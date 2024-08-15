@@ -35,7 +35,7 @@ Create an `.env` file in the root of the project based on the `.env.example` fil
 NEXT_PUBLIC_JSON_RPC=...
 
 # Optional
-NEXT_PUBLIC_WALLETCONNECT_ID=...  # Needed if you want to use WalletConnect: https://docs.walletconnect.com/cloud/relay
+NEXT_PUBLIC_WALLETCONNECT_ID=...  # Used for WalletConnect connections: https://docs.walletconnect.com/cloud/relay
 ```
 
 ### Install Dependencies
