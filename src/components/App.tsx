@@ -10,7 +10,7 @@ import CustomRpcInput from "./CustomRpcInput"
 import "@rainbow-me/rainbowkit/styles.css"
 
 import { getDefaultConfig, darkTheme, lightTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit"
-import { WagmiProvider } from "wagmi"
+import { http, createConfig, WagmiProvider } from "wagmi"
 import { mainnet as wagmiMainnet } from "wagmi/chains"
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 
@@ -22,21 +22,32 @@ const App = () => {
 
     // Helper function to create default config
     const createDefaultConfig = (rpcUrl) => {
-        return getDefaultConfig({
-            appName: "SSV Rewards Claim UI",
-            projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_ID,
-            chains: [
-                {
-                    ...wagmiMainnet,
-                    rpcUrls: {
-                        default: {
-                            http: [rpcUrl], // Set the default rpcUrl for mainnet
-                        },
-                    },
+        const chainsConfig = {
+            ...wagmiMainnet,
+            rpcUrls: {
+                default: {
+                    http: [rpcUrl], // Set the default rpcUrl for mainnet
                 },
-            ],
-            ssr: true,
-        })
+            },
+        }
+
+        if (!process.env.NEXT_PUBLIC_WALLETCONNECT_ID) {
+            // If no WalletConnect ID is set, only use the default injected provider
+            return createConfig({
+                chains: [chainsConfig],
+                transports: {
+                    [wagmiMainnet.id]: http(rpcUrl),
+                },
+            })
+        } else {
+            // If WalletConnect ID is set, use the default config with WalletConnect
+            return getDefaultConfig({
+                appName: "SSV Rewards Claim UI",
+                projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_ID,
+                chains: [chainsConfig],
+                ssr: true,
+            })
+        }
     }
 
     // Create default rpcUrl config
@@ -44,16 +55,12 @@ const App = () => {
 
     // UseEffect - Update default rpcUrl when customRpc changes
     useEffect(() => {
-        if (customRpc) {
-            setConfig(createDefaultConfig(customRpc))
-        }
+        setConfig(createDefaultConfig(customRpc || process.env.NEXT_PUBLIC_JSON_RPC))
     }, [customRpc])
 
     // UseEffect - Reset customRpc when useCustomRpc is false
     useEffect(() => {
-        if (!useCustomRpc) {
-            setCustomRpc("")
-        }
+        !useCustomRpc && setCustomRpc("")
     }, [useCustomRpc, setCustomRpc])
 
     // Create queryClient for RainbowKit
