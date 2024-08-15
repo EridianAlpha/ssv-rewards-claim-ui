@@ -57,21 +57,22 @@ export default function SendTransactionButton({
             const expectedMerkleRoot = merkleProofRoot
             const merkleProof = merkleProofEntry.proof
 
-            writeContract(
-                {
-                    address: `0x${cumulativeMerkleDropAddress.slice(2)}`,
-                    abi: abi,
-                    functionName: "claim",
-                    args: [account, cumulativeAmount, expectedMerkleRoot, merkleProof],
-                    chain: mainnet,
-                    account: `0x${connectedWalletAddress.slice(2)}`,
+            const txObject = {
+                address: cumulativeMerkleDropAddress as `0x${string}`,
+                abi: abi,
+                functionName: "claim",
+                args: [account, cumulativeAmount, expectedMerkleRoot, merkleProof],
+                chain: mainnet,
+                account: connectedWalletAddress as `0x${string}`,
+            }
+
+            console.log("Waiting for signature on transaction: \n", txObject)
+
+            writeContract(txObject, {
+                onSuccess: async () => {
+                    console.log("Transaction sent to network.")
                 },
-                {
-                    onSuccess: async () => {
-                        console.log("Transaction sent to network.")
-                    },
-                }
-            )
+            })
         } catch (err) {
             console.error(err)
             setTransactionState({ ...transactionState, error: err.message, isWaitingForSignature: false })
@@ -85,7 +86,7 @@ export default function SendTransactionButton({
             setTransactionHash(hash)
         }
         if (isConfirmed && !transactionState?.isConfirmed) {
-            console.log("Transaction confirmed.")
+            console.log("Transaction confirmed: ", hash)
             setIsTransactionConfirmed(true)
             setTransactionState({ ...transactionState, error: null, isWaitingForSignature: false, isConfirming: false, isConfirmed: true })
         }
