@@ -21,7 +21,11 @@ All of the values used (contract addresses, Merkle proofs, etc.) can be found in
 Create a `.env` file in the root of the project based on the `.env.example` file:
 
 ```bash
+# Required
 NEXT_PUBLIC_JSON_RPC=...
+
+# Optional
+NEXT_PUBLIC_WALLETCONNECT_ID=...  # Needed if you want to use WalletConnect: https://docs.walletconnect.com/cloud/relay
 ```
 
 ### Install Dependencies
