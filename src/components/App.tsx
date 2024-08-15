@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react"
+import { useEffect, useState, useCallback, use } from "react"
 import { Box, Flex, useColorModeValue } from "@chakra-ui/react"
 
 import Header from "./Header"
@@ -72,19 +72,30 @@ const App = () => {
                     } else {
                         console.log("Invalid WalletConnect projectId:", process.env.NEXT_PUBLIC_WALLETCONNECT_ID)
                         setIsValidWalletConnectId(false)
+                        createWagmiProviderConfig()
                     }
                 })
                 .catch((error) => {
                     console.error("Error fetching WalletConnect ID", error)
                     setIsValidWalletConnectId(false)
+                    createWagmiProviderConfig()
                 })
         }
-    }, [])
+    }, [createWagmiProviderConfig])
 
-    // UseEffect - Recreate wagmiProviderConfig when customRpc or isValidWalletConnectId changes
+    // UseEffect - Recreate wagmiProviderConfig when isValidWalletConnectId changes to true
     useEffect(() => {
-        createWagmiProviderConfig()
-    }, [customRpc, isValidWalletConnectId, createWagmiProviderConfig])
+        if (isValidWalletConnectId) {
+            createWagmiProviderConfig()
+        }
+    }, [isValidWalletConnectId, createWagmiProviderConfig])
+
+    // UseEffect - Recreate wagmiProviderConfig when customRpc changes
+    useEffect(() => {
+        if (useCustomRpc && customRpc) {
+            createWagmiProviderConfig()
+        }
+    }, [customRpc, useCustomRpc, createWagmiProviderConfig])
 
     // UseEffect - Reset customRpc when useCustomRpc is false
     useEffect(() => {
