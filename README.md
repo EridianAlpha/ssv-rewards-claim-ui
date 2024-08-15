@@ -1,10 +1,10 @@
 # SSV Rewards Claim UI
 
-A standalone, open-source, UI for claiming SSV Mainnet Incentives rewards and will also support the Lido Vaults Initiative when launched. Works with Wallet Connect and allows anyone to claim with a different wallet to their rewards address, and it works on mobile.
+A standalone, open-source, UI for claiming SSV Mainnet Incentives rewards. It will also support the Lido Vaults Initiative when launched. Works with WalletConnect, allows anyone to claim with a different wallet to their rewards address, and works on mobile.
 
 ## Usage
 
-The UI is available at [ssvrewards.com](https://ssvrewards.com).
+The UI is deployed at [ssvrewards.com](https://ssvrewards.com).
 
 Any wallet can be used to claim rewards on behalf of another address. This is a feature of the [rewards contract](https://etherscan.io/address/0xe16d6138B1D2aD4fD6603ACdb329ad1A6cD26D9f#code) and is not specific to this UI.
 
@@ -12,13 +12,23 @@ Without connecting a wallet you can still view the rewards available for a given
 
 If rewards are available for the address, the UI will display the rewards available and the claimable amount. If the address has no rewards available, the UI will display a message indicating that there are no rewards available for the address.
 
-To claim rewards, connect a wallet and sign the transaction. The rewards will be claimed to the connected wallet address (if that address has rewards available) or to the address entered in the input field (if that address has rewards available).
+To claim rewards, connect a wallet and sign the transaction. The rewards will be claimed to the connected wallet address (if that address has rewards available) or to the address entered in the address input field (if that address has rewards available).
 
 All of the values used (contract addresses, Merkle proofs, etc.) can be found in the [public/data](public/data) directory and are updated manually when the rewards contract is updated using a PR.
 
 ## Installation
 
-Create a `.env` file in the root of the project based on the `.env.example` file:
+### Clone the Repository
+
+Clone the repository to your local machine using the following command:
+
+```bash
+git clone https://github.com/EridianAlpha/ssv-rewards-claim-ui.git
+```
+
+### Create an Environment File
+
+Create an `.env` file in the root of the project based on the `.env.example` file:
 
 ```bash
 # Required
@@ -36,6 +46,18 @@ Install the dependencies using the following command:
 yarn
 ```
 
+### Deployment
+
+### Development Commands
+
+This section explains the available scripts in the `package.json` file and their usage during development.
+
+- `yarn dev`  
+  This command starts the development server using the `node server.js` script. Use this command during development to see live updates as you make changes to the project.
+
+- `yarn lint`  
+  This command checks the code quality and adherence to coding standards using the `next lint` command. It is recommended to run this command before committing changes to ensure code consistency and maintainability.
+
 ### Update Dependencies
 
 To update all dependencies to their latest versions, run the following command:
@@ -47,16 +69,6 @@ yarn upgrade --latest
 # Update specific dependencies to their latest versions in interactive mode
 yarn upgrade-interactive --latest
 ```
-
-### Development Commands
-
-This section explains the available scripts in the `package.json` file and their usage during development.
-
-- `yarn dev`  
-  This command starts the development server using the `node server.js` script. Use this command during development to see live updates as you make changes to the project.
-
-- `yarn lint`  
-  This command checks the code quality and adherence to coding standards using the `next lint` command. It is recommended to run this command before committing changes to ensure code consistency and maintainability.
 
 ## Production
 
