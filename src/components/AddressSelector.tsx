@@ -10,7 +10,7 @@ export default function AddressSelector({ rewardsAddress, setRewardsAddress }) {
     return (
         <>
             <Text fontWeight={"extrabold"} fontSize={"3xl"} textAlign={"center"}>
-                Claim all your SSV Rewards here
+                Claim all your SSV rewards here
             </Text>
             <Button
                 px={"80px"}
