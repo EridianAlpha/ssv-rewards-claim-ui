@@ -11,11 +11,11 @@ import useFetchPreviouslyClaimedRewards from "@/hooks/useFetchPreviouslyClaimedR
 import { useAccount } from "wagmi"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
 
+import { contracts } from "public/data/contracts"
+
 import SendTransactionButton from "./SendTransactionButton"
 
-export default function IncentivesMainnetTab({ address, customRpc }) {
-    const rewardsType = "mainnetIncentives"
-
+export default function IncentivesMainnetTab({ address, customRpc, rewardsType }) {
     const [merkleProof, setMerkleProof] = useState(null)
     const [merkleProofDate, setMerkleProofDate] = useState(null)
     const [merkleProofEntry, setMerkleProofEntry] = useState(null)
@@ -25,6 +25,8 @@ export default function IncentivesMainnetTab({ address, customRpc }) {
     const [minimumDelayLoading, setMinimumDelayLoading] = useState(true)
     const [isTransactionConfirmed, setIsTransactionConfirmed] = useState(false)
     const [transactionHash, setTransactionHash] = useState(null)
+
+    const cumulativeMerkleDropAddress = contracts.cumulativeMerkleDrop[rewardsType]
 
     const { isConnected } = useAccount()
     const { openConnectModal } = useConnectModal()
@@ -187,7 +189,7 @@ export default function IncentivesMainnetTab({ address, customRpc }) {
                 View and interact with the rewards contract{" "}
                 <Link
                     as={NextLink}
-                    href={"https://etherscan.io/address/0xe16d6138B1D2aD4fD6603ACdb329ad1A6cD26D9f#code"}
+                    href={`https://etherscan.io/address/${cumulativeMerkleDropAddress}#code`}
                     color={"blue"}
                     textDecoration={"underline"}
                     target="_blank"

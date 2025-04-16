@@ -23,18 +23,16 @@ export default function RewardsContainer({ address, customRpc }) {
                     <Tab py={2} fontWeight={"semibold"} fontSize={"lg"} gap={3}>
                         <HStack mb={activeTabIndex == 1 ? "4px" : "0"} ml={activeTabIndex == 1 ? "4px" : "0"}>
                             <Image maxW={6} borderRadius={"full"} objectFit={"cover"} src={"./images/LidoLogo.png"} alt={"Lido Logo"} />
-                            <Text>Lido Vault (Coming soon)</Text>
+                            <Text>Lido Vault</Text>
                         </HStack>
                     </Tab>
                 </TabList>
                 <TabPanels className="contentContainer" border={"2px solid"} borderTop={"none"} borderBottomRadius={"20px"}>
                     <TabPanel>
-                        <IncentivesMainnetTab address={address} customRpc={customRpc} />
+                        <IncentivesMainnetTab address={address} customRpc={customRpc} rewardsType={"mainnetIncentives"} />
                     </TabPanel>
                     <TabPanel>
-                        <Text minH={"400px"} pt={10} textAlign={"center"} fontWeight={"semibold"}>
-                            🏗️ Coming soon! 🏗️
-                        </Text>
+                        <IncentivesMainnetTab address={address} customRpc={customRpc} rewardsType={"lidoIncentives"} />
                     </TabPanel>
                 </TabPanels>
             </Tabs>
