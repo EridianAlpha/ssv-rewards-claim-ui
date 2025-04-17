@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { VStack, HStack, Text, Spinner, Button, Link } from "@chakra-ui/react"
+import { VStack, HStack, Text, Spinner, Button, Link, Checkbox, Box } from "@chakra-ui/react"
 import NextLink from "next/link"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -25,7 +25,7 @@ export default function IncentivesMainnetTab({ address, customRpc, rewardsType }
     const [minimumDelayLoading, setMinimumDelayLoading] = useState(true)
     const [isTransactionConfirmed, setIsTransactionConfirmed] = useState(false)
     const [transactionHash, setTransactionHash] = useState(null)
-
+    const [isTermsAccepted, setIsTermsAccepted] = useState(false)
     const cumulativeMerkleDropAddress = contracts.cumulativeMerkleDrop[rewardsType]
 
     const { isConnected } = useAccount()
@@ -132,6 +132,23 @@ export default function IncentivesMainnetTab({ address, customRpc, rewardsType }
             )}
 
             {unclaimedRewards > 0 && isConnected && (
+                <VStack gap={3}>
+                    <Text color={"gray.300"}>
+                        By accessing or using this claim page, I agree to the{" "}
+                        <Link as={NextLink} href={`https://ssv.network/terms-of-use/`} color={"blue"} textDecoration={"underline"} target="_blank">
+                            Terms of Service
+                        </Link>{" "}
+                        of SSV Network and confirm that I have read and understood the terms of the Incentivized Network Program at ssv.network.
+                    </Text>
+                    <Box border={"2px solid"} borderRadius={"full"} p={3} mb={isTermsAccepted ? 0 : "84px"}>
+                        <Checkbox isChecked={isTermsAccepted} onChange={(e) => setIsTermsAccepted(e.target.checked)}>
+                            I accept the terms & conditions
+                        </Checkbox>
+                    </Box>
+                </VStack>
+            )}
+
+            {unclaimedRewards > 0 && isConnected && isTermsAccepted && (
                 <SendTransactionButton
                     rewardsType={rewardsType}
                     merkleProofRoot={merkleProof.root}
