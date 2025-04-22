@@ -17,24 +17,22 @@ export default function RewardsContainer({ address, customRpc }) {
                     <Tab py={2} fontWeight={"semibold"} fontSize={"lg"} gap={3}>
                         <HStack mb={activeTabIndex == 0 ? "4px" : "0"} mr={activeTabIndex == 0 ? "4px" : "0"}>
                             <Image maxW={4} objectFit={"cover"} src={"./images/SSVLogo.svg"} alt={"SSV Logo"} />
-                            <Text>SSV Mainnet Incentives</Text>
+                            <Text>SSV Incentivized Mainnet</Text>
                         </HStack>
                     </Tab>
                     <Tab py={2} fontWeight={"semibold"} fontSize={"lg"} gap={3}>
                         <HStack mb={activeTabIndex == 1 ? "4px" : "0"} ml={activeTabIndex == 1 ? "4px" : "0"}>
                             <Image maxW={6} borderRadius={"full"} objectFit={"cover"} src={"./images/LidoLogo.png"} alt={"Lido Logo"} />
-                            <Text>Lido Vault (Coming soon)</Text>
+                            <Text>Lido SDVT / CSM / DVV</Text>
                         </HStack>
                     </Tab>
                 </TabList>
                 <TabPanels className="contentContainer" border={"2px solid"} borderTop={"none"} borderBottomRadius={"20px"}>
                     <TabPanel>
-                        <IncentivesMainnetTab address={address} customRpc={customRpc} />
+                        <IncentivesMainnetTab address={address} customRpc={customRpc} rewardsType={"mainnetIncentives"} />
                     </TabPanel>
                     <TabPanel>
-                        <Text minH={"400px"} pt={10} textAlign={"center"} fontWeight={"semibold"}>
-                            🏗️ Coming soon! 🏗️
-                        </Text>
+                        <IncentivesMainnetTab address={address} customRpc={customRpc} rewardsType={"lidoIncentives"} />
                     </TabPanel>
                 </TabPanels>
             </Tabs>
