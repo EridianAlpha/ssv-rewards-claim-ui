@@ -1,11 +1,17 @@
 import { useState } from "react"
-import { VStack, Button, Input } from "@chakra-ui/react"
+import { VStack, Button, Input, Spinner } from "@chakra-ui/react"
+
+import { useConfig } from "wagmi"
+import { getEnsAddress } from "wagmi/actions"
+import { normalize } from "viem/ens"
 
 import { ethers } from "ethers"
 
 export default function AddressInput({ rewardsAddress, setRewardsAddress }) {
     const [addressInputValue, setAddressInputValue] = useState(rewardsAddress || "")
     const [isRewardsAddressError, setIsRewardsAddressError] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const config = useConfig()
 
     const handleInputChange = (event) => {
         setRewardsAddress(null)
@@ -19,13 +25,28 @@ export default function AddressInput({ rewardsAddress, setRewardsAddress }) {
         }
     }
 
-    const handleButtonClick = () => {
+    const handleButtonClick = async () => {
+        setIsRewardsAddressError(false)
+        setRewardsAddress(null)
+
         if (ethers.isAddress(addressInputValue)) {
-            setIsRewardsAddressError(false)
             setRewardsAddress(addressInputValue)
-        } else {
+            return
+        }
+
+        try {
+            setIsLoading(true)
+            const resolvedAddress = await getEnsAddress(config, { name: normalize(addressInputValue) })
+            if (!resolvedAddress) {
+                setIsRewardsAddressError(true)
+                return
+            }
+            setRewardsAddress(resolvedAddress)
+        } catch (e) {
+            console.warn("ens lookup failed", e)
             setIsRewardsAddressError(true)
-            setRewardsAddress(null)
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -57,7 +78,13 @@ export default function AddressInput({ rewardsAddress, setRewardsAddress }) {
                     textOverflow="clip"
                     onClick={handleButtonClick}
                 >
-                    {isRewardsAddressError ? "Invalid address - Please use a valid Ethereum address" : "Check rewards"}
+                    {isLoading ? (
+                        <Spinner />
+                    ) : isRewardsAddressError ? (
+                        "Invalid address - Please use a valid Ethereum address or ENS"
+                    ) : (
+                        "Check rewards"
+                    )}
                 </Button>
             )}
         </VStack>

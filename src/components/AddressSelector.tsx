@@ -30,7 +30,7 @@ export default function AddressSelector({ rewardsAddress, setRewardsAddress }) {
             </Text>
             <VStack gap={5} w={"100%"}>
                 <Text textAlign={"center"} maxW={"90vw"} fontWeight={"semibold"}>
-                    Enter an Ethereum address to view your rewards
+                    Enter an Ethereum address or ENS name to view your rewards
                 </Text>
                 <AddressInput rewardsAddress={rewardsAddress} setRewardsAddress={setRewardsAddress} />
             </VStack>
