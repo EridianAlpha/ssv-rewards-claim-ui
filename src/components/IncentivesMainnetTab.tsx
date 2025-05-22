@@ -93,7 +93,7 @@ export default function IncentivesMainnetTab({ address, customRpc, rewardsType }
                     </VStack>
                     <HStack gap={6} fontSize={"3xl"} color={unclaimedRewards > 0 ? "green" : "none"}>
                         <Text>{unclaimedRewards > 0 ? "🥳" : "😔"}</Text>
-                        <Text>{formatSSVAmount(unclaimedRewards)} SSV</Text>
+                        <Text>{Number(formatSSVAmount(unclaimedRewards)) < 0 ? "0.0000" : formatSSVAmount(unclaimedRewards)} SSV</Text>
                         <Text>{unclaimedRewards > 0 ? "🥳" : "😔"}</Text>
                     </HStack>
                     {fetchPreviouslyClaimedRewardsResult && !fetchPreviouslyClaimedRewardsResult.success && (
@@ -177,7 +177,7 @@ export default function IncentivesMainnetTab({ address, customRpc, rewardsType }
                     Connect a wallet to claim rewards
                 </Button>
             )}
-            {!isTransactionConfirmed && (!unclaimedRewards || unclaimedRewards == 0) && (
+            {!isTransactionConfirmed && (!unclaimedRewards || unclaimedRewards <= 0) && (
                 <VStack gap={2} className={"bgPage"} borderRadius={"20px"} py={3} px={5}>
                     <Text>It looks like you do not have any rewards to claim right now.</Text>
                     <Text>Try checking again when the results have been updated.</Text>
