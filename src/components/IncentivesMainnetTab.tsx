@@ -131,52 +131,46 @@ export default function IncentivesMainnetTab({ address, customRpc, rewardsType }
                 </VStack>
             )}
 
-            {unclaimedRewards > 0 && isConnected && (
-                <VStack gap={3}>
-                    <Text color={"gray.300"}>
-                        By accessing or using this claim page, I agree to the{" "}
-                        <Link as={NextLink} href={`https://ssv.network/terms-of-service`} color={"blue"} textDecoration={"underline"} target="_blank">
-                            Terms of Service
-                        </Link>{" "}
-                        of the SSV Network, confirm that I have read and understood the terms of the{" "}
-                        <Link
-                            as={NextLink}
-                            href={`https://ssv.network/incentivized-mainnet-terms-and-conditions`}
-                            color={"blue"}
-                            textDecoration={"underline"}
-                            target="_blank"
-                        >
-                            Incentivized Mainnet Program
-                        </Link>{" "}
-                        for{" "}
-                        <Link
-                            as={NextLink}
-                            href={`https://ssv.network/incentivized-mainnet`}
-                            color={"blue"}
-                            textDecoration={"underline"}
-                            target="_blank"
-                        >
-                            ssv.network
-                        </Link>
-                        , and have read the{" "}
-                        <Link
-                            as={NextLink}
-                            href={`https://ssv.network/incentivized-mainnet-faq`}
-                            color={"blue"}
-                            textDecoration={"underline"}
-                            target="_blank"
-                        >
-                            FAQ
-                        </Link>
-                        .
-                    </Text>
+            <VStack gap={3}>
+                <Text>
+                    By accessing or using this claim page, I agree to the{" "}
+                    <Link as={NextLink} href={`https://ssv.network/terms-of-service`} color={"blue"} textDecoration={"underline"} target="_blank">
+                        Terms of Service
+                    </Link>{" "}
+                    of the SSV Network, confirm that I have read and understood the terms of the{" "}
+                    <Link
+                        as={NextLink}
+                        href={`https://ssv.network/incentivized-mainnet-terms-and-conditions`}
+                        color={"blue"}
+                        textDecoration={"underline"}
+                        target="_blank"
+                    >
+                        Incentivized Mainnet Program
+                    </Link>{" "}
+                    for{" "}
+                    <Link as={NextLink} href={`https://ssv.network/incentivized-mainnet`} color={"blue"} textDecoration={"underline"} target="_blank">
+                        ssv.network
+                    </Link>
+                    , and have read the{" "}
+                    <Link
+                        as={NextLink}
+                        href={`https://ssv.network/incentivized-mainnet-faq`}
+                        color={"blue"}
+                        textDecoration={"underline"}
+                        target="_blank"
+                    >
+                        FAQ
+                    </Link>
+                    .
+                </Text>
+                {unclaimedRewards > 0 && isConnected && (
                     <Box border={"2px solid"} borderRadius={"full"} p={3} mb={isTermsAccepted ? 0 : "84px"}>
                         <Checkbox isChecked={isTermsAccepted} onChange={(e) => setIsTermsAccepted(e.target.checked)}>
                             I accept the terms & conditions
                         </Checkbox>
                     </Box>
-                </VStack>
-            )}
+                )}
+            </VStack>
 
             {unclaimedRewards > 0 && isConnected && isTermsAccepted && (
                 <SendTransactionButton

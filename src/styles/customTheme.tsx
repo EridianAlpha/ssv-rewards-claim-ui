@@ -244,7 +244,7 @@ const customTheme = extendTheme({
                 },
                 control: {
                     _checked: {
-                        color: "white",
+                        color: props.colorMode === "dark" ? "white" : "black",
                         borderColor: props.colorMode === "dark" ? "border.dark" : "border.light",
                     },
                     _hover: {
