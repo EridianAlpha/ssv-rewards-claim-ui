@@ -13,6 +13,15 @@ export default function RewardsContainer({ customRpc }) {
 
     const { address: connectedWalletAddress, isConnected } = useAccount()
 
+    // On page load, if there is a url param called "address", set the rewardsAddress to that address
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search)
+        const address = urlParams.get("address")
+        if (address) {
+            setRewardsAddress(address)
+        }
+    }, [])
+
     // UseEffect - When isConnected changes:
     //  - If there is a rewardsAddress (from a read-only address) then useAlternativeAddress should be true
     useEffect(() => {

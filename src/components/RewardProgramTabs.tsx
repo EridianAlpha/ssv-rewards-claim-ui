@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { VStack, HStack, Text, Tabs, TabList, Tab, TabPanels, TabPanel, Image } from "@chakra-ui/react"
 
 import IncentivesMainnetTab from "./IncentivesMainnetTab"
@@ -6,13 +6,22 @@ import IncentivesMainnetTab from "./IncentivesMainnetTab"
 export default function RewardsContainer({ address, customRpc }) {
     const [activeTabIndex, setActiveTabIndex] = useState(0)
 
+    // On page load, if there is a url param called "tab", set the activeTabIndex to that tab
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search)
+        const tab = urlParams.get("tab")
+        if (tab) {
+            setActiveTabIndex(tab === "lido" ? 1 : 0)
+        }
+    }, [address])
+
     const handleTabChange = (index) => {
         setActiveTabIndex(index)
     }
 
     return (
         <VStack gap={6} width="100%">
-            <Tabs isFitted width="100%" variant={"RewardsTabs"} onChange={handleTabChange}>
+            <Tabs isFitted width="100%" variant={"RewardsTabs"} index={activeTabIndex} onChange={handleTabChange}>
                 <TabList borderColor={"transparent"} mb={0}>
                     <Tab py={2} fontWeight={"semibold"} fontSize={"lg"} gap={3}>
                         <HStack mb={activeTabIndex == 0 ? "4px" : "0"} mr={activeTabIndex == 0 ? "4px" : "0"}>

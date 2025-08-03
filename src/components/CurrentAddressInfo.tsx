@@ -23,6 +23,10 @@ export default function CurrentAddressInfo({ rewardsAddress, setRewardsAddress, 
                     setUseAlternativeAddress()
                     setRewardsAddress()
                     disconnect()
+                    // Remove the address parameter
+                    const url = new URL(window.location.href)
+                    url.searchParams.delete("address")
+                    window.history.replaceState({}, "", url.toString())
                 }}
             >
                 <HStack gap={3}>
