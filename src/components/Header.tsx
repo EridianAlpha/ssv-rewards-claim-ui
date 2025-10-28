@@ -15,7 +15,7 @@ import {
     Tooltip,
 } from "@chakra-ui/react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faDiscord, faGithub } from "@fortawesome/free-brands-svg-icons"
+import { faGithub } from "@fortawesome/free-brands-svg-icons"
 import { faSun, faMoon, faBars, faSatelliteDish } from "@fortawesome/free-solid-svg-icons"
 import Link from "next/link"
 
@@ -57,14 +57,6 @@ function HeaderButtons({ displayZone, buttonLabels, useCustomRpc, setUseCustomRp
                     <HStack gap={3}>
                         <Image maxW={4} objectFit={"cover"} src={"./images/SSVLogo.svg"} alt={"SSV Logo"} />
                         {buttonLabels && <Text pr={1}>ssv.network</Text>}
-                    </HStack>
-                </Button>
-            </Link>
-            <Link href={"https://discord.gg/ssvnetworkofficial"} target="_blank">
-                <Button variant={"HeaderButton"} aria-label={"Join SSV Discord"} borderRadius={"full"} p={2}>
-                    <HStack gap={3}>
-                        <FontAwesomeIcon icon={faDiscord} size={"xl"} />
-                        {buttonLabels && <Text pr={1}>SSV Discord</Text>}
                     </HStack>
                 </Button>
             </Link>
