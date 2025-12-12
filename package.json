@@ -33,7 +33,7 @@
     "ethers": "^6.13.2",
     "framer-motion": "^11.3.24",
     "lodash": "^4.17.21",
-    "next": "16.0.7",
+    "next": "16.0.10",
     "polished": "^4.3.1",
     "react": "19.2.1",
     "react-dom": "19.2.1",
