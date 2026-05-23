@@ -19,6 +19,12 @@ const rainbowAnimation = keyframes`
   100% { background-position: 0% 50%; }
 `
 
+/** Shared border for rewards tabs + panel so the frame reads as one piece */
+const REWARDS_SHELL_BORDER = {
+    light: "gray.300",
+    dark: "#ECECED",
+} as const
+
 const customTheme = extendTheme({
     fonts: {
         heading: `'Poppins', sans-serif`,
@@ -111,14 +117,17 @@ const customTheme = extendTheme({
                 RewardsTabs: (props: StyleFunctionProps) => ({
                     tab: {
                         borderRadius: "20px 20px 0px 0px",
-                        borderBottom: "2px solid",
+                        // Same 2px border box for every state so switching tabs does not shift layout
+                        border: "2px solid",
+                        borderColor: "transparent",
+                        borderBottomColor: props.colorMode === "dark" ? REWARDS_SHELL_BORDER.dark : REWARDS_SHELL_BORDER.light,
                         bg:
                             props.colorMode === "dark"
                                 ? lightenColor(props.theme.colors.pageBackground.dark, 0.05)
                                 : darkenColor(props.theme.colors.contentBackground.light, 0),
                         _selected: {
-                            border: "2px solid",
-                            borderBottom: "2px transparent",
+                            borderColor: props.colorMode === "dark" ? REWARDS_SHELL_BORDER.dark : REWARDS_SHELL_BORDER.light,
+                            borderBottomColor: "transparent",
                             bg:
                                 props.colorMode === "dark"
                                     ? lightenColor(props.theme.colors.pageBackground.dark, 0.05)
@@ -293,4 +302,5 @@ const customTheme = extendTheme({
     },
 })
 
+export { REWARDS_SHELL_BORDER }
 export default customTheme
