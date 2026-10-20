@@ -15,8 +15,8 @@ export default function RewardsContainer({ address, customRpc }) {
         const tab = urlParams.get("tab")
         if (tab) {
             if (tab === "lido") setActiveTabIndex(2)
-            else if (tab === "mainnetIncentivesEthCluster" || tab === "eth-cluster") setActiveTabIndex(1)
-            else setActiveTabIndex(0)
+            else if (tab === "mainnetIncentivesEthCluster" || tab === "eth-cluster") setActiveTabIndex(0)
+            else setActiveTabIndex(1)
         }
     }, [address])
 
@@ -31,13 +31,13 @@ export default function RewardsContainer({ address, customRpc }) {
                     <Tab py={2} fontWeight={"semibold"} fontSize={"lg"} gap={3}>
                         <HStack justifyContent="center" alignItems="center" spacing={3} minH="32px">
                             <Image maxW={4} objectFit={"cover"} src={"./images/SSVLogo.svg"} alt={"SSV Logo"} />
-                            <Text>Incentivized Mainnet <br/> (SSV - Legacy)</Text>
+                            <Text>Incentivized Mainnet <br/> (ETH Cluster)</Text>
                         </HStack>
                     </Tab>
                     <Tab py={2} fontWeight={"semibold"} fontSize={"lg"} gap={3}>
                         <HStack justifyContent="center" alignItems="center" spacing={3} minH="32px">
                             <Image maxW={4} objectFit={"cover"} src={"./images/SSVLogo.svg"} alt={"SSV Logo"} />
-                            <Text>Incentivized Mainnet <br/> (ETH Cluster)</Text>
+                            <Text>Incentivized Mainnet <br/> (SSV - Legacy)</Text>
                         </HStack>
                     </Tab>
                     <Tab py={2} fontWeight={"semibold"} fontSize={"lg"} gap={3}>
@@ -55,10 +55,10 @@ export default function RewardsContainer({ address, customRpc }) {
                     borderBottomRadius="20px"
                 >
                     <TabPanel>
-                        <IncentivesMainnetTab address={address} customRpc={customRpc} rewardsType={"mainnetIncentives"} />
+                        <IncentivesMainnetTab address={address} customRpc={customRpc} rewardsType={"mainnetIncentivesEthCluster"} />
                     </TabPanel>
                     <TabPanel>
-                        <IncentivesMainnetTab address={address} customRpc={customRpc} rewardsType={"mainnetIncentivesEthCluster"} />
+                        <IncentivesMainnetTab address={address} customRpc={customRpc} rewardsType={"mainnetIncentives"} />
                     </TabPanel>
                     <TabPanel>
                         <IncentivesMainnetTab address={address} customRpc={customRpc} rewardsType={"lidoIncentives"} />
